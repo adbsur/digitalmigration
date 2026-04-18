@@ -1,0 +1,137 @@
+
+
+<!DOCTYPE html>
+ <html lang="en">
+ 
+<head>
+    <meta charset="utf-8">
+<title>Basic layout (wrapper + 3 columns)</title>
+
+
+ <title>Basic layout (wrapper + 3 columns)</title>
+<link rel="stylesheet" href="chatbox.css">
+ 
+</head>
+<body>
+
+
+<div class="scene">
+  <div id="dialogueBox" class="dialogue-box">
+
+<div class="character-box">
+      <img id="characterImage" src="https://asjkndnkaof.carrd.co/assets/images/image08.png?v=db2b5e8e" alt="Character">
+    </div>
+
+    <div class="text-box">
+    <div id="speaker" class="speaker">NPC</div>
+   <div id="text" class="text"></div>
+</div>
+
+  </div>
+
+</div>
+
+
+
+<script>
+const dialogue = [
+  {
+    speaker: "Margaret Thatcher",
+    text: "After waiting a year, you have been called in for your screening interview with an Immigration Officer. There has been significant delays by Home Office in making asylum decisions. A report on the BBC news covering claim fabrications has increased suspicions surrounding claims [ref]"
+  },
+  {
+    speaker: "Margaret Thatcher",
+    text: "“Thanks for waiting. I have your file here, can you walk me through your story?”"
+  },
+  {
+    speaker: "Maragret Thatcher",
+    text: "[You sit through a round of questions, ranging from marital relationships, joined income. You decide to go for a smaller number, the question , though neutral in enquiry. As the officer types in your responses, his expression remains indecipherable. When asked about your current savings, you recite your calculations, knowing how small the number is and wondering if it would have made any difference to say a number even lower than that, a dwelling on a weight that your living expenses are decided on this very moment]"},
+
+];
+
+let index = -1;
+let typing = false;
+let currentText = "";
+let typeTimeout = null;
+
+const box = document.getElementById("dialogueBox");
+const speakerEl = document.getElementById("speaker");
+const textEl = document.getElementById("text");
+
+
+// ▶ TYPE TEXT FUNCTION
+function typeText(fullText) {
+  typing = true;
+  currentText = fullText;
+  textEl.innerHTML = "";
+
+  let i = 0;
+
+  function addChar() {
+    textEl.innerHTML += fullText[i];
+    i++;
+
+    if (i < fullText.length) {
+      typeTimeout = setTimeout(addChar, 25);
+    } else {
+      typing = false;
+    }
+  }
+
+  addChar();
+}
+
+
+// ▶ SKIP TYPE FUNCTION (IMPORTANT FIX)
+function skipTyping() {
+  clearTimeout(typeTimeout);       // stop animation loop
+  textEl.innerHTML = currentText;  // show full text instantly
+  typing = false;
+}
+
+
+// ▶ NEXT LINE FUNCTION
+function nextLine() {
+  index++;
+
+  if (index >= dialogue.length) {
+    speakerEl.innerText = "";
+    textEl.innerText = "(End)";
+    return;
+  }
+
+  const line = dialogue[index];
+
+  speakerEl.innerText = line.speaker;
+  typeText(line.text);
+}
+
+
+// ▶ INPUT HANDLER (CLICK / KEYBOARD)
+function advance() {
+  if (typing) {
+    skipTyping();
+  } else {
+    nextLine();
+  }
+}
+
+
+// ▶ CLICK SUPPORT
+box.addEventListener("click", advance);
+
+
+// ▶ KEYBOARD SUPPORT (SPACE + ENTER)
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space" || e.code === "Enter") {
+    e.preventDefault(); // prevents page scroll
+    advance();
+  }
+});
+
+
+// ▶ START GAME
+nextLine();
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+       
+    </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✦ Welcome to My Homepage ✦</title>
+ <link rel="stylesheet" href="collage.css" />
+</head>
+
+
+ <body>
+
+</body>
+ 
+  <style>
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 1 — RESET
+       Removes browser default spacing so everything starts clean.
+       You almost never need to touch this.
+    ──────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 2 — PAGE / BODY
+       Controls the overall page background colour, font, and
+       the custom star cursor.
+
+       Change these to restyle the whole page at once:
+         background  → page background colour
+         font-family → the main font used everywhere
+         color       → default text colour
+    ──────────────────────────────────────────────────────────── */
+
+
+
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 5 — COLLAGE CANVAS
+       This is the main "stage" that all your GIFs sit on.
+       position:relative is essential — it is what makes
+       position:absolute work for all the child items.
+
+       min-height sets the minimum height of the canvas.
+       overflow:hidden clips anything that goes off-edge.
+    ──────────────────────────────────────────────────────────── */
+   
+
+    /* Tiny white dot "stars" in the background — pure CSS, no image needed */
+    .collage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 15%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 65%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 30%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 80%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 20%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 85%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 50%, white 0%, transparent 100%),
+        radial-gradient(2px 2px at 65% 12%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 55%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at  5% 45%, white 0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 92%, white 0%, transparent 100%),
+        radial-gradient(2px 2px at 92% 68%, white 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+
+    /* ────────────────────────────────────────────────────────────
+
+       position:absolute  → lets you place it anywhere with top/left
+       z-index            → controls which item appears on top
+       transition         → smooth hover effect
+    ──────────────────────────────────────────────────────────── */
+    .item {
+      position: absolute;  /* ← REQUIRED — this is what lets top/left positioning work */
+      cursor: grab;
+      user-select: none;
+      z-index: 10;
+      transition: filter 0.15s, transform 0.15s;
+    }
+
+    /* Glowing cyan halo + pop-forward on hover */
+    .item:hover {
+      filter: drop-shadow(0 0 8px cyan); /* ← change colour of hover glow here */
+      z-index: 999 !important;
+    }
+
+    .item:active { cursor: grabbing; }
+
+    /* Styles applied directly to <img> tags inside .item */
+    .item img {
+      display: block;
+      image-rendering: pixelated;   /* ← keeps GIFs looking chunky/retro */
+      image-rendering: crisp-edges;
+    }
+
+    /* The small caption that appears under each item */
+    .item-label {
+      text-align: center;
+      font-size: 11px;
+      color: cyan;               /* ← caption text colour */
+      text-shadow: 1px 1px 0 #000;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 7 — TEXT SNIPPETS
+       Floaty text passages scattered across the canvas.
+       Add colour classes (yellow / lime / cyan / pink / white)
+       to control which colour each snippet uses.
+    ──────────────────────────────────────────────────────────── */
+    .snippet {
+      position: absolute;
+      font-size: 13px;
+      line-height: 1.5;
+      text-shadow: 1px 1px 2px #000;
+      max-width: 200px;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    /* Colour variants — add more here if you like */
+    .snippet.yellow { color: yellow; }
+    .snippet.lime   { color: lime; }
+    .snippet.cyan   { color: cyan; }
+    .snippet.pink   { color: #ff69b4; }
+    .snippet.white  { color: white; }
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 8 — SPARKLES
+       The twinkling symbols dotted around the canvas.
+       animation-delay staggers when each one pulses.
+    ──────────────────────────────────────────────────────────── */
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      animation: twinkle 1.6s ease-in-out infinite alternate;
+      z-index: 20;
+      font-size: 20px; /* ← size of sparkle symbols */
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.1; transform: scale(0.6) rotate(-15deg); }
+      to   { opacity: 1;   transform: scale(1.3) rotate(15deg); }
+    }
+
+
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 10 — BLINK ANIMATION
+       Classic blinking text. Apply class="blink" to any element.
+    ──────────────────────────────────────────────────────────── */
+    .blink {
+      animation: blink 0.9s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 11 — FLOAT ANIMATION
+       Makes an item gently bob up and down.
+       Apply class="float-up" to any .item.
+    ──────────────────────────────────────────────────────────── */
+    .float-up {
+      animation: float-up 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes float-up {
+      from { transform: translateY(0px); }
+      to   { transform: translateY(-12px); } /* ← increase px to bob higher */
+    }
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 12 — INFO BOXES
+       The bordered panels (About Me, Links, Warning etc).
+    ──────────────────────────────────────────────────────────── */
+    .info-box {
+      position: absolute;
+      border: 2px solid yellow; /* ← box border colour */
+      background: rgba(0,0,0,0.75);
+      padding: 8px 12px;
+      font-size: 12px;
+      color: white;
+      z-index: 15;
+      max-width: 180px;
+      line-height: 1.6;
+    }
+
+    .info-box .box-title {
+      color: yellow;
+      font-size: 13px;
+      font-weight: bold;
+      border-bottom: 1px solid yellow;
+      margin-bottom: 6px;
+      padding-bottom: 2px;
+    }
+
+
+  
+
+
+
+
+
+    /* ────────────────────────────────────────────────────────────
+       SECTION 15 — POP-IN ENTRANCE ANIMATION
+       Items animate in from small + rotated when the page loads.
+       JS staggers each item's animation-delay automatically.
+    ──────────────────────────────────────────────────────────── */
+    @keyframes pop-in {
+      from { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+      to   { opacity: 1; transform: scale(1)   rotate(0deg);   }
+    }
+
+    .pop-in {
+      animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+  </style>
+  <!-- ============================================================
+       END OF CSS — everything below is HTML page content
+       ============================================================ -->
+</head>
+<body>
+
+
+<!-- ══════════════════════════════════════════════
+     MAIN COLLAGE CANVAS
+     The inline style attributes on the wrapper are:
+         top   → distance from the top of the canvas
+                 (use % for responsive, or px for exact)
+         left  → distance from the left of the canvas
+         transform: rotate(Xdeg) → tilt (- = left, + = right)
+         data-z index→ stacking order (higher number = in front)
+
+       Optional extra classes on the wrapper:
+         pop-in   → animates in on page load
+         float-up → gently bobs up and down continuously
+
+     ══════════════════════════════════════════════ -->
+<div class="collage" id="collage">
+
+  <!-- Twinkling sparkle symbols -->
+  <div class="sparkle" style="top:5%;  left:3%;  animation-delay:0s">*</div>
+  <div class="sparkle" style="top:12%; left:92%; animation-delay:0.4s">+</div>
+  <div class="sparkle" style="top:35%; left:50%; animation-delay:0.7s">*</div>
+  <div class="sparkle" style="top:60%; left:88%; animation-delay:1.0s">+</div>
+  <div class="sparkle" style="top:78%; left:25%; animation-delay:0.3s">*</div>
+  <div class="sparkle" style="top:22%; left:72%; animation-delay:1.3s">+</div>
+  <div class="sparkle" style="top:50%; left:6%;  animation-delay:0.9s">*</div>
+  <div class="sparkle" style="top:88%; left:70%; animation-delay:0.2s">+</div>
+
+ 
+
+
+  <!-- ── Floating text snippets ─────────────── -->
+<div class="snippet" style="top:6%; left: 15%; transform:rotate(-1deg);">
+  <img 
+    src="https://resourcelistadbsur.carrd.co/assets/images/image26.png?v=db51faf6"
+    alt="Welcome to My Homepage"
+    style="width: 800px;"
+  >
+</div>
+
+
+
+
+  <!-- ITEM 1 -->
+   <a href="/chatbox/chatbox.html">
+  <div class="item pop-in" style="top:18%; left:15%; transform:rotate(-8deg);" data-z="5">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/716c4fff.png?v=604de61e" width="100" alt="spinning globe">
+    <div class="item-label"> Prison </div>
+  </div>
+</a>
+  <!-- ITEM 2 — floats up and down -->
+  <div class="item pop-in float-up" style="top:8%; left:52%; transform:rotate(5deg);" data-z="8">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/a273b3fe.png?v=604de61e" width="100" alt="download">
+    <div class="item-label">CLICK 2 DOWNLOAD</div>
+  </div>
+
+  <!-- ITEM 3 -->
+  <div class="item pop-in" style="top:55%; left:15%; transform:rotate(-5deg);" data-z="6">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/c2353d67.png?v=604de61e" width="100" alt="under construction">
+    <div class="item-label">under construction!!</div>
+  </div>
+
+  <!-- ITEM 4 — floats -->
+  <div class="item pop-in float-up" style="top:25%; left:75%; transform:rotate(10deg);" data-z="7">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/c0d96679.png?v=604de61e" width="80" alt="email me">
+    <div class="item-label">email me!!!</div>
+  </div>
+
+  <!-- ITEM 5 -->
+  <div class="item pop-in" style="top:65%; left:75%; transform:rotate(-12deg);" data-z="5">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/15735be5.png?v=604de61e" width="80" alt="5 star">
+    <div class="item-label">5 star site!</div>
+  </div>
+
+  <!-- ITEM 6 — floats -->
+  <div class="item pop-in float-up" style="top:10%; left:85%; transform:rotate(6deg);" data-z="9">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/b9092441.png?v=604de61e" width="100" alt="music">
+    <div class="item-label">MIDI playing</div>
+  </div>
+
+  <!-- ITEM 7 -->
+  <div class="item pop-in" style="top:70%; left:48%; transform:rotate(-7deg);" data-z="6">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/7b17f5a4.png?v=604de61e" width="150" alt="hot links">
+    <div class="item-label">hot links</div>
+  </div>
+
+  <!-- ITEM 8 — floats -->
+  <div class="item pop-in float-up" style="top:38%; left:88%; transform:rotate(14deg);" data-z="7">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/da06d729.png?v=604de61e" width="150" alt="cool">
+    <div class="item-label">cool!!!!</div>
+  </div>
+
+  <!-- ITEM 9 -->
+  <div class="item pop-in" style="top:80%; left:10%; transform:rotate(-3deg);" data-z="8">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/2dce8d3e.png?v=604de61e" width="150" alt="rainbow">
+    <div class="item-label">u r gr8</div>
+  </div>
+
+  <!-- ITEM 10 -->
+  <div class="item pop-in" style="top:62%; left:32%; transform:rotate(9deg);" data-z="6">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/439cf5bd.png?v=604de61e" width="150" alt="guestbook">
+    <div class="item-label">sign guestbook!</div>
+  </div>
+
+  <!-- ITEM 11 — floats -->
+  <div class="item pop-in float-up" style="top:33%; left:6%; transform:rotate(-11deg);" data-z="5">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/f8cbca8e.png?v=604de61e" width="150" alt="dolphin">
+    <div class="item-label">I love dolphins</div>
+  </div>
+
+  <!-- ITEM 12 -->
+  <div class="item pop-in" style="top:20%; left:62%; transform:rotate(-6deg);" data-z="7">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/gallery03/df734a33.png?v=604de61e" width="150" alt="award">
+    <div class="item-label">award winner!!</div>
+  </div>
+
+
+
+
+
+
+<!-- ============================================================
+     JAVASCRIPT — always placed at the bottom of <body>,
+     after all the HTML, so it runs once the page has loaded.
+     ============================================================ -->
+<script>
+
+  /* ── Make every .item draggable (mouse + touch) ── */
+  function makeDraggable(el) {
+    const canvas = document.getElementById('collage');
+    let dragging = false, ox = 0, oy = 0;
+    const originalZ = el.dataset.z || 10;
+
+    el.addEventListener('mousedown', e => {
+      dragging = true;
+      const r = el.getBoundingClientRect();
+      ox = e.clientX - r.left;
+      oy = e.clientY - r.top;
+      el.style.zIndex     = 1000;
+      el.style.transition = 'none';
+      el.style.transform  = 'scale(1.1) rotate(0deg)';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const cr = canvas.getBoundingClientRect();
+      el.style.left = (e.clientX - cr.left - ox) + 'px';
+      el.style.top  = (e.clientY - cr.top  - oy) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      el.style.zIndex     = originalZ;
+      el.style.transition = '';
+      el.style.transform  = '';
+    });
+
+    /* Touch support for mobile */
+    el.addEventListener('touchstart', e => {
+      const t = e.touches[0];
+      dragging = true;
+      const r = el.getBoundingClientRect();
+      ox = t.clientX - r.left;
+      oy = t.clientY - r.top;
+      el.style.zIndex = 1000;
+      e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchmove', e => {
+      if (!dragging) return;
+      const t = e.touches[0];
+      const cr = canvas.getBoundingClientRect();
+      el.style.left = (t.clientX - cr.left - ox) + 'px';
+      el.style.top  = (t.clientY - cr.top  - oy) + 'px';
+      e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('touchend', () => {
+      dragging = false;
+      el.style.zIndex = originalZ;
+    });
+  }
+
+  document.querySelectorAll('.item').forEach(makeDraggable);
+
+  /* ── Stagger the pop-in entrance animation ── */
+  document.querySelectorAll('.pop-in').forEach((el, i) => {
+    el.style.animationDelay = (i * 0.07) + 's';
+  });
+
+
+</script>
+</body>
+</html>

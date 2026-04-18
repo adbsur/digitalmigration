@@ -1,0 +1,168 @@
+@font-face {
+  font-family: minecraftia;
+  src: url(https://dl.dropbox.com/s/qrro6u0lx00x66j/Minecraftia-Regular.ttf?);
+}
+body {
+  cursor: url("select.cur"), auto;
+}
+
+html, body {
+  min-height: 100%;
+}
+/*
+body {
+  background-image: url('https://bordersjdkksks.carrd.co/assets/images/image17.gif?v=f91c289f');
+  background-size: 200px 200px;
+  background-position: center;
+  background-repeat: repeat;
+  background-attachment: fixed; /* image stays still while you scroll */
+  /*
+      font-family: "minecraftia";
+      color: rgb(255, 255, 255);
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><text y='16' font-size='16'>✦</text></svg>") 10 10, auto;
+
+}. 
+*/
+body {
+  background-image: url('https://bordersjdkksks.carrd.co/assets/images/gallery07/d64e72e7.gif?v=8cb6211e');
+ background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; /* image stays still while you scroll
+  
+      font-family: "minecraftia";
+      color: rgb(255, 255, 255);
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><text y='16' font-size='16'>✦</text></svg>") 10 10, auto;
+    
+
+}
+
+
+
+
+
+/* ───────────── RESET ───────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+
+/* ───────────── COLLAGE CANVAS ───────────── */
+.collage {
+  position: relative;
+  width: 100%;
+  height: auto;
+min-height: 100vh;
+  overflow: visible;
+}
+.collage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 65%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 30%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 80%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 20%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 85%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 50%, white 0%, transparent 100%),
+    radial-gradient(2px 2px at 65% 12%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 55%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at  5% 45%, white 0%, transparent 100%),
+    radial-gradient(1px 1px at 38% 92%, white 0%, transparent 100%),
+    radial-gradient(2px 2px at 92% 68%, white 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ───────────── ITEMS ───────────── */
+.item {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  z-index: 10;
+  transition: filter 0.15s, transform 0.15s;
+}
+.item:hover {
+  filter: drop-shadow(0 0 8px cyan);
+  z-index: 999 !important;
+}
+.item:active { cursor: grabbing; }
+.item img {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.item-label {
+  text-align: center;
+  font-size: 11px;
+  color: cyan;
+  text-shadow: 1px 1px 0 #000;
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+
+/* ───────────── SPARKLES ───────────── */
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  animation: twinkle 1.6s ease-in-out infinite alternate;
+  z-index: 20;
+  font-size: 20px;
+}
+@keyframes twinkle {
+  from { opacity: 0.1; transform: scale(0.6) rotate(-15deg); }
+  to   { opacity: 1;   transform: scale(1.3) rotate(15deg); }
+}
+
+/* ───────────── BLINK ───────────── */
+.blink {
+  animation: blink 0.9s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ───────────── FLOAT-UP ───────────── */
+.float-up {
+  animation: float-up 3s ease-in-out infinite alternate;
+}
+@keyframes float-up {
+  from { transform: translateY(0px); }
+  to   { transform: translateY(-12px); }
+}
+
+/* ───────────── INFO BOXES ───────────── */
+.info-box {
+  position: absolute;
+  border: 2px solid yellow;
+  background: rgba(0,0,0,0.75);
+  padding: 8px 12px;
+  font-size: 12px;
+  color: white;
+  z-index: 15;
+  max-width: 180px;
+  line-height: 1.6;
+}
+.info-box .box-title {
+  color: yellow;
+  font-size: 13px;
+  font-weight: bold;
+  border-bottom: 1px solid yellow;
+  margin-bottom: 6px;
+  padding-bottom: 2px;
+}
+
+/* ───────────── POP-IN ANIMATION ───────────── */
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.5) rotate(-20deg); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.pop-in {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
