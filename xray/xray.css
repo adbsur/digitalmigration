@@ -1,0 +1,31 @@
+ .item {
+      position: absolute;  /* ← REQUIRED — this is what lets top/left positioning work */
+      cursor: grab;
+      user-select: none;
+      z-index: 10;
+      transition: filter 0.15s, transform 0.15s;
+      
+    }
+
+body {
+
+
+background-color: black;
+
+
+  
+      font-family: "minecraftia";
+      color: rgb(255, 255, 255);
+      
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><text y='16' font-size='16'>✦</text></svg>") 10 10, auto;
+
+}
+
+
+.bg {
+  width:auto;
+  max-height: 600px;
+  display: block;
+  background-position: top center;
+  padding: 40px;
+}
