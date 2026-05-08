@@ -11,5 +11,6 @@ scrams at you. and it appears over the previous message to fill the entire page.
 --Optional--
 Character select which choice influences the image that appears on every webpage 
 
+hello badele
 
 
