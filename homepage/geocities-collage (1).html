@@ -435,5 +435,76 @@
 
 
 </script>
+
+
+  <style>
+      #popup {
+        display: none;
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0,0,0,0.5);
+
+        justify-content: center;
+        align-items: center;
+      }
+      .popup-box {
+        background: white;
+        padding: 24px;
+        border-radius: 4px;
+        width: 600px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      }
+      button {
+        padding: 10px 10px;
+        border: none;
+        cursor: pointer;
+      }
+  </style>
+
+
+  <!--<button id="popup-open">Open popup</button>-->
+  <div id="popup">
+    <div class="popup-box">
+      <h2>hello</h2>
+      <p>text and whatnot</p>
+      <button id="popup-close">Close</button>
+    </div>
+  </div>
+
+  <script>
+
+    window.onload = function () {
+
+      const popup = document.getElementById("popup");
+
+      /*
+      document
+        .getElementById("popup-open")
+        .onclick = function () {
+          popup.style.display = "flex";
+        };
+      */
+
+      document
+        .getElementById("popup-close")
+        .onclick = function () {
+          popup.style.display = "none";
+        };
+
+      popup.onclick = function (event) {
+        if (event.target === popup) {
+          popup.style.display = "none";
+        }
+      };
+
+      popup.style.display = "flex";
+    };
+  </script>
+
+
+
+
 </body>
 </html>
