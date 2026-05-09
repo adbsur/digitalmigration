@@ -1,0 +1,182 @@
+
+
+<!DOCTYPE html>
+ <html lang="en">
+ 
+<head>
+    <meta charset="utf-8">
+<title>Basic layout (wrapper + 3 columns)</title>
+
+
+ <title>Basic layout (wrapper + 3 columns)</title>
+<link rel="stylesheet" href="Director.css">
+ <style>
+ 
+@font-face {
+font-family: free pixel;
+src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey=u1etxfizp0p3ywi5c63p82d3w&dl=0);
+}ß
+ 
+
+
+ </style>
+</head>
+<body>
+
+
+<div class="scene">
+  <div id="dialogueBox" class="dialogue-box">
+<div class="overlay1"></div>
+<div class="overlay2"></div>
+<div class="character-box">
+      <img id="characterImage" src="https://asjkndnkaof.carrd.co/assets/images/image19.png?v=2041307a" alt="Character">
+    </div>
+
+    <div class="text-box">
+    <div id="speaker" class="speaker">NPC</div>
+   <div id="text" class="text"></div>
+</div>
+
+  </div>
+  <!-- button -->
+<div class="button">
+
+  <a href = "/homepage/homepage.html" </a>
+  <span class="start-btn exit">EXIT</span>
+ 
+</div>
+
+</div>
+
+
+
+<script>
+const dialogue = [
+  {
+    speaker: "Margaret Thatcher",
+    text: "I am Maggie Thatcher the Vampire… You want to speak to me immigration laws and of “keeping” britain white? Of course! If I hadn’t intervened, we would have a flood of people taking over the country."
+  },
+  { speaker: "Margaret Thatcher",
+    text: " Rather than taking in people who disregard our rules and regulations, let’s take care of the people who were born here, or otherwise the most undeserving of us would outbreed the most deserving. It’s quite frankly about monitoring our resources…"
+  },
+  {
+    speaker: "Margaret Thatcher",
+    text: " You say we’re dependent on our Commonweatlh territories? I would disagree. All I can say is, we have too many low pay, low skilled workers coming into our country taking advantage of our facilities." 
+  },
+
+  { speaker: "Margaret Thatcher",
+    text: "What, we asked them to - and promised to grant them automatic citizenship? I never promised them anything. What we did was perfectly legal."
+  },
+
+   { speaker: "Margaret Thatcher",
+    text: "The Global South say that we called them to travel from our colonies to make up for our worker shortage, as we were stunted post-war, but we called them over to rebuild our country not destabilise our rigid rules of citizenship. "
+  },
+
+  {
+    speaker: "Maragret Thatcher",
+    text: "… I see what you're refereing to as the Windrush scandal, but I never see them complaining- they remained. I never asked to depend on us (...only to rebuild our country)  They have children, settle here, and they want social protection on top of that?! It was seasonal work! THEY WERE NOT MEANT TO STAY"
+},
+{ speaker: "Margaret Thatcher",
+    text:"But That was the past. I would’t know anything going on now but ask anyone how they feel!!!! Going down [insert name] street, you get the smell of meat, whatever DIRTY meat, goat, dog in their bloody overalls. VERY different from where I’M from! And the noise and filth they make! If  You help every person who asks for a bit of change, we’d have nothing left!!"
+
+},
+
+{ speaker: "Margaret Thatcher",
+    text:"We are amidst a housing-crisis! Course these no space for newcomers! What we NEED to do with these immigrantS coming in,  is to tell them TO GO BACK TO WHERE THEY'RE FROM!! It’s NOT OUR PROBLEM THAT they have no documentation! ASYLUM? It’s charity WORK! WE ARE IN A MORAL CRISIS!!!!! The moment we help them, they return the favour by killing us off with their senseless behaviour. Mugging, raping, all sorts of crimes!!!! They come here to start families, have more children than they can handle-  If they controlled themselves, we wouldn’t be feeding so many mouths!!!!!"
+
+},
+
+{ speaker: "Margaret Thatcher",
+    text:" A MORALISED BRITAIN! SHOULD WE FOCUS ON OUR WEATH, WE'D BE IN A MUCH BETTER PLACE TO PROVIDE ALL OF THIS SKILL, KNOWLEDGE, CAPITAL TO THOSE SO URGENTLY NEEDY AND DESPERATE COUNTRIES! WHAT WE NEED IS A STRONG BRITAIN!"
+  },
+{ speaker: "Margaret Thatcher",
+    text:"....go away now"
+  }
+];
+
+let index = -1;
+let typing = false;
+let currentText = "";
+let typeTimeout = null;
+
+const box = document.getElementById("dialogueBox");
+const speakerEl = document.getElementById("speaker");
+const textEl = document.getElementById("text");
+
+
+// ▶ TYPE TEXT FUNCTION
+function typeText(fullText) {
+  typing = true;
+  currentText = fullText;
+  textEl.innerHTML = "";
+
+  let i = 0;
+
+  function addChar() {
+    textEl.innerHTML += fullText[i];
+    i++;
+
+    if (i < fullText.length) {
+      typeTimeout = setTimeout(addChar, 25);
+    } else {
+      typing = false;
+    }
+  }
+
+  addChar();
+}
+
+
+// ▶ SKIP TYPE FUNCTION (IMPORTANT FIX)
+function skipTyping() {
+  clearTimeout(typeTimeout);       // stop animation loop
+  textEl.innerHTML = currentText;  // show full text instantly
+  typing = false;
+}
+
+
+// ▶ NEXT LINE FUNCTION
+function nextLine() {
+  index++;
+
+  if (index >= dialogue.length) {
+    speakerEl.innerText = "";
+    textEl.innerText = "(End)";
+    return;
+  }
+
+  const line = dialogue[index];
+
+  speakerEl.innerText = line.speaker;
+  typeText(line.text);
+}
+
+
+// ▶ INPUT HANDLER (CLICK / KEYBOARD)
+function advance() {
+  if (typing) {
+    skipTyping();
+  } else {
+    nextLine();
+  }
+}
+
+
+// ▶ CLICK SUPPORT
+box.addEventListener("click", advance);
+
+
+// ▶ KEYBOARD SUPPORT (SPACE + ENTER)
+document.addEventListener("keydown", function(e) {
+  if (e.code === "Space" || e.code === "Enter") {
+    e.preventDefault(); // prevents page scroll
+    advance();
+  }
+});
+
+
+// ▶ START GAME
+nextLine();
+</script>
+</body>
+</html>

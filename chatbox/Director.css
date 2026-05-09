@@ -1,27 +1,67 @@
 
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
 
 .dialogue-box {
  position:relative;
  display: flex;
   flex-direction: column; /* stack vertically */
-  width: 600px; /* controls overall size */
-  height: 600px;
+  width: 500px; /* controls overall size */
 padding: 20px;
-  z-index: 1;
+  z-index: 3;
   justify-content: flex-start; /* 🔥 key: stick content to top */
   overflow: hidden; /* keeps square intact */
-  
 box-sizing: border-box;
 
   color: white;
 }
 
+.overlay1{
+position: absolute;
+  inset: 0;
+
+  background:url('https://asjkndnkaof.carrd.co/assets/images/image10.png?v=30e96eec');
+background-repeat: no-repeat;
+ top: 180px;
+ right: 200px;
+ background-size: 185%;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 0 19px rgba(70, 167, 114, 0.819));
+}
+
+.overlay2{
+position: absolute;
+  inset: 0;
+
+  background:url('https://asjkndnkaof.carrd.co/assets/images/image11.png?v=2041307a');
+background-repeat: no-repeat;
+ top: -20px;
+ right: 130px;
+ background-size: 100%;
+  pointer-events: none;
+  z-index:1;
+  
+}
+
+/* content ABOVE overlay */
+.character-box img,
+.text-box {
+  position: relative;
+  z-index: 5;
+}
+
+/* border/frame on top of everything */
 .dialogue-box::before {
   content: "";
   position: absolute;
   inset: 0;
 
-  background: url('https://bordersjdkksks.carrd.co/assets/images/image02.png?v=f586536e')
+  background: url('https://bordersjdkksks.carrd.co/assets/images/image05.png?v=cbe63db4')
     center / 100% 100% no-repeat;
 
   pointer-events: none;
@@ -33,8 +73,8 @@ box-sizing: border-box;
   width: 100%;
   aspect-ratio: 1 / 1; /* 🔥 makes it a perfect square */
 flex: 1 1 auto;
-height: 300px;
-  background: #000;
+height: 400px;
+  background: #FDEEFD;
   overflow: hidden;
 
 }
@@ -43,14 +83,18 @@ height: 300px;
 .character-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* or 'contain' */
-  padding: 30px;
+  object-fit: contain; /* or 'contain' */
+  padding: 0px;
+   transform: translateX(+120px);
 }
 
 /* Smaller text box */
 .text-box {
-  width: 100%;
+  
+  
   font-family: "Free Pixel", sans-serif;
+  width: 100%;
+  
   padding: 30px;
 box-sizing: border-box;
   background: #111;
@@ -77,11 +121,12 @@ box-sizing: border-box;
   justify-content: center;
   align-items: center; /* optional: vertical centering */
 
-  background-image: url('https://bordersjdkksks.carrd.co/assets/images/gallery06/a2de0f2b.gif?v=5b097a70');
+  background-image: url('https://bordersjdkksks.carrd.co/assets/images/image18.jpg?v=5b097a70');
    background-position: center;
-  background-repeat: repeat;
-
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
     
+
 /*button*/
 
 
@@ -115,10 +160,4 @@ box-sizing: border-box;
 .start-btn:active {
   box-shadow: none;
     transform: translateY(.2em);
-}
-
-* {
-  margin: 0;
-  
-  box-sizing: border-box;
 }
