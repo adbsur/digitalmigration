@@ -23,6 +23,12 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
 </head>
 <body>
 
+<!-- Marquee --> 
+<div class="marquee top">
+  <div class="marquee-text">
+   • SYSTEM MESSAGE: PRESS  ▶ ICON WHILE TALKING TO SPEED UP DIALOGUE  •
+  </div>
+</div>
 
 <div class="scene">
   <div id="dialogueBox" class="dialogue-box">
@@ -34,6 +40,10 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
     <div class="text-box">
     <div id="speaker" class="speaker">NPC</div>
    <div id="text" class="text"></div>
+
+ <span id="forwardButton" class="forward-btn">
+    ▶
+  </span>
 </div>
 
   </div>
@@ -45,7 +55,8 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
  
 </div>
 
-</div>
+
+
 
 
 
@@ -53,7 +64,7 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
 const dialogue = [
   {
     speaker: "Margaret Thatcher",
-    text: "I am Maggie Thatcher the Vampire… You want to speak to me about immigration laws and “keeping” britain white? Of course! If I hadn’t intervened, we would have a flood of people taking over the country."
+    text: "I am Maggie Thatcher the Vampire… You want to speak to me about immigration laws and “keeping” britain white? Of course! If I hadn’t intervened, we would have a flood of people taking over the country. PRESS ▶ TO CONTINUE "
   },
   { speaker: "Margaret Thatcher",
     text: "It’s quite frankly about monitoring our resources… Rather than taking in people who disregard our rules and regulations, let’s take care of the people who were born here or else the most undeserving of us would outbreed the most deserving. "
@@ -73,7 +84,7 @@ const dialogue = [
 
   {
     speaker: "Maragret Thatcher",
-    text: "… What you're refereing to as the Windrush "scandal" was an act of hospitality. Regardless of their complaints, they remained. I never asked to *depend* on us (...only to rebuild our country)  They chose to have children and settle here, and now they want social protection on top of that? It was seasonal work! THEY WERE NOT MEANT TO STAY"
+    text: "… What you're refereing to as the Windrush 'scandal' was an act of hospitality. Regardless of their complaints, they remained. I never asked to *depend* on us (...only to rebuild our country)  They chose to have children and settle here, and now they want social protection on top of that?! It was seasonal work! THEY WERE NOT MEANT TO STAY"
 },
 { speaker: "Margaret Thatcher",
     text:"But That was the past. I would’t know anything going on now but ask anyone how they feel!!!! Going down [insert name] street, you get the smell of meat, whatever DIRTY meat, goat, dog in their bloody overalls. VERY different from where I’M from! And the noise and filth they make! If  You help every person who asks for a bit of change, we’d have nothing left!!"
@@ -161,16 +172,15 @@ function advance() {
 }
 
 
-// ▶ CLICK SUPPORT
-box.addEventListener("click", advance);
 
+// ▶ FORWARD BUTTON SUPPORT
+const forwardBtn = document.getElementById("forwardButton");
 
-// ▶ KEYBOARD SUPPORT (SPACE + ENTER)
-document.addEventListener("keydown", function(e) {
-  if (e.code === "Space" || e.code === "Enter") {
-    e.preventDefault(); // prevents page scroll
+forwardBtn.addEventListener("click", function(e) {
+  
+     e.stopPropagation();
     advance();
-  }
+  
 });
 
 

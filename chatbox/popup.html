@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://unpkg.com/7.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+<button class="button" onclick="openPopup()">Instructions</button>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="popup" class="window active">
+  <div class="title-bar">
+    <div class="title-bar-text">Quite simple</div>
+    <div class="title-bar-controls">
+      <button aria-label="Close" onclick="closePopup()"></button>
+    </div>
+  </div>
+
+  <div class="window-body has-space">
+    <p>Lorem ipsum dolor sit amet...</p>
+  </div>
+</div>
+
+<script>
+  // open immediately on load (for animation trigger)
+  window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("popup").classList.add("show");
+    document.getElementById("overlay").classList.add("show");
+  });
+
+  function closePopup() {
+    document.getElementById("popup").classList.remove("show");
+    document.getElementById("overlay").classList.remove("show");
+  }
+
+  function openPopup() {
+    document.getElementById("popup").classList.add("show");
+    document.getElementById("overlay").classList.add("show");
+  }
+</script>
+
+</body>
+</html>

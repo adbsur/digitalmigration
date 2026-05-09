@@ -1,10 +1,8 @@
-1) Pop up on main page with a cross button to close
-2) "Back to homepage" button on every webpage that links to the homepage (for adele)
-    use links <a>
-3) Forward button to promp dialogue. 
-4) Pop up triggered after dialogue ends
+1) Pop up on main page with a cross button to close 
 
-5) Translation page: "NOT UNDERSTOOD" appears everytime you press translate so it translates, but it also 
+2)  Pop up triggered after dialogue ends
+
+3) Translation page: "NOT UNDERSTOOD" appears everytime you press translate so it translates, but it also 
 scrams at you. and it appears over the previous message to fill the entire page. How to signal thee end of the scene? :(
 
 
