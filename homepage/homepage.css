@@ -82,12 +82,12 @@ min-height: 100vh;
   position: absolute;
   cursor: grab;
   user-select: none;
-  z-index: 10;
+  z-index: 2;
   transition: filter 0.15s, transform 0.15s;
 }
 .item:hover {
   filter: drop-shadow(0 0 8px cyan);
-  z-index: 999 !important;
+  z-index: 2 
 }
 .item:active { cursor: grabbing; }
 .item img {
@@ -102,6 +102,13 @@ min-height: 100vh;
   text-shadow: 1px 1px 0 #000;
   margin-top: 3px;
   white-space: nowrap;
+}
+
+.popup-box,
+#popup
+ {
+    position: relative;
+  z-index: 99;
 }
 
 

@@ -7,7 +7,7 @@
   width: 600px; /* controls overall size */
   height: 600px;
 padding: 20px;
-  z-index: 1;
+  
   justify-content: flex-start; /* 🔥 key: stick content to top */
   overflow: hidden; /* keeps square intact */
   
@@ -25,7 +25,7 @@ box-sizing: border-box;
     center / 100% 100% no-repeat;
 
   pointer-events: none;
-  z-index: 99;
+  z-index: 1;
 }
 
 /* BIG character box */
@@ -80,7 +80,7 @@ box-sizing: border-box;
   background-image: url('https://bordersjdkksks.carrd.co/assets/images/gallery06/a2de0f2b.gif?v=5b097a70');
    background-position: center;
   background-repeat: repeat;
-
+}
     
 /*button*/
 
