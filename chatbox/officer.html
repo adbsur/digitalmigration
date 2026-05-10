@@ -24,7 +24,12 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
 <body>
 
 
-
+<!-- Marquee --> 
+<div class="marquee top">
+  <div class="marquee-text">
+   • SYSTEM MESSAGE: PRESS  ▶ ICON WHILE TALKING TO SPEED UP DIALOGUE  •
+  </div>
+</div>
 <div class="scene">
   <div id="dialogueBox" class="dialogue-box">
 
@@ -35,12 +40,14 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
     <div class="text-box">
     <div id="speaker" class="speaker">NPC</div>
    <div id="text" class="text"></div>
-   </div>
+<span id="forwardButton" class="forward-btn">
+    ▶
+  </span>
 </div>
 
 
+  </div>
   <!-- button -->
-
 <div class="button">
 
   <a href = "/homepage/homepage.html" </a>
@@ -135,21 +142,21 @@ function advance() {
 }
 
 
-// ▶ CLICK SUPPORT
-box.addEventListener("click", advance);
 
+// ▶ FORWARD BUTTON SUPPORT
+const forwardBtn = document.getElementById("forwardButton");
 
-// ▶ KEYBOARD SUPPORT (SPACE + ENTER)
-document.addEventListener("keydown", function(e) {
-  if (e.code === "Space" || e.code === "Enter") {
-    e.preventDefault(); // prevents page scroll
+forwardBtn.addEventListener("click", function(e) {
+  
+     e.stopPropagation();
     advance();
-  }
+  
 });
 
 
 // ▶ START GAME
 nextLine();
+</script>
 </script>
 </body>
 </html>
