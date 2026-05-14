@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>mistranslation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    
+
+
+
+    <!--
+    
+    PLEASE SKIM READ AT LEAST!!!
+    TO USE:
+
+    you need a text input box, marked with id="translateInput"
+    you need a text output box, marked with id="translateOutput"
+    you need a button, marked with id="translateButton"
+    
+    optional, set your settings using mistranslateSettings, as below
+    also include <script src="src/main.js"></script>
+
+
+    settings, which you can change as you need:
+
+    languages: number of languages to translate through
+    splitPercent: how split into chunks, translated individually, the text is
+    leaveChance: the percent chance that a word will be left, not translated back to english
+    continuous: whether to continuously translate the text, or just do it once
+    continuousDelay: if continuous is true, how long to wait between translations
+    continuousMaxLoops: if continuous is true, the maximum number of times to translate before repeating results
+    translatingMessage: the message to show in the output box while translating, before showing results
+
+
+    everything you need is in div below and main.js in src
+    adapt the code below or write your own
+    beware, the code looks for ids, so you cant have multiple inputs/outputs, so delete these if you want your own
+
+    -->
+
+      <div class="mistranslationBox">
+
+      <div style="background-color: bisque;width: 80%; height: 500px; margin: auto; margin-top: 100px; outline: 1px solid black; font-size: 32px;">
+        <div style="display: flex; flex-direction: column;">
+          <p style="align-self: center">mistranslation</p>
+          <div style="display: flex; flex-direction: row;">
+        <div id="translateInput" contenteditable="true" class="editableBox">
+  Here are some examples:<br>
+  - Can you help me?<br>
+  - I was told to wait but I don't know who to see<br><br>
+
+  <span style="color:red;">
+    It's now a game of chance or a question of patience - will you hear me out?
+  </span>
+</div>
+<div id="translateOutput" class="mistranslationBox" style="width: 50%; height: 300px; resize: none">
+     </div>
+           
+          </div>
+          <button id="translateButton" style="width: 30%; height: 50px; align-self: center; margin-top: 20px;">translate</button>
+        </div>
+        <script>
+          let mistranslateSettings = {
+            languages: 2,
+            splitPercent: 25,
+            leaveChance: 20,
+            continuous: false,
+            continuousDelay: 1000,
+            continuousMaxLoops: 3,
+            translatingMessage: "translating..."
+          };
+        </script>
+        <script src="src/main.js"></script>
+      </div>
+
+    </div>
+
+
+
+  </body>
+</html>

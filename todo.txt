@@ -11,4 +11,27 @@ Character select which choice influences the image that appears on every webpage
 
 FDEEFD
 
+ <div
+  id="translateInput"
+  contenteditable="true"
+  class="textbox"
+>
+  This translator has been fed different languages, try out  different types of words and it may spit it out in a  different language. 
+
+
+The longer the paragraph or the more complex words you use, the more scrambled meanings it produces.
+
+
+Here are some examples:
+- Can you help me?
+- I was told to wait but I don't know who to see
+- I have been having ongoing issues for the past year, and I was referred to you even though I have already been referred by many other people. 
+
+
+
+
+  <span class="special">
+   It's now a game of chance or a question of patience - will you hear me out? 
+  </span>
+</div>
 
