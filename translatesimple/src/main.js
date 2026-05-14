@@ -35,7 +35,7 @@ async function translateButtonClicked() {
     isTranslating  = false;
 
     if (mistranslateSettings.continuous) {
-        await runAndStore(inputTextArea.value, true);
+        await runAndStore(inputTextArea.innerHTML, true);
 
         continuousInterval = setInterval(async () => {
             const maxLoops = mistranslateSettings.continuousMaxLoops;
@@ -44,12 +44,12 @@ async function translateButtonClicked() {
                 sendTextOut(resultHistory[cycleIndex % maxLoops]);
                 cycleIndex++;
             } else if (!isTranslating) {
-                await runAndStore(inputTextArea.value, false);
+                await runAndStore(inputTextArea.innerHTML, false);
                 console.log(`result history (${resultHistory.length}/${maxLoops}):`, resultHistory);
             }
         }, mistranslateSettings.continuousDelay);
     } else {
-        const result = await mistranslate(inputTextArea.value, true);
+        const result = await mistranslate(inputTextArea.innerHTML, true);
         sendTextOut(result);
     }
 }
@@ -113,7 +113,7 @@ async function translateChunk(chunk, langChain) {
 
 
 function sendTextOut(text) {
-    outputTextArea.value = text;
+    outputTextArea.innerHTML = text;
 }
 
 function selectLanguages(num, langPool) {

@@ -41,29 +41,42 @@
 
     -->
 
-    <div style="background-color: bisque;width: 80%; height: 500px; margin: auto; margin-top: 100px; outline: 1px solid black; font-size: 32px;">
-      <div style="display: flex; flex-direction: column;">
-        <p style="align-self: center">mistranslation</p>
-        <div style="display: flex; flex-direction: row;">
-          <textarea id="translateInput"           style="width: 50%; height: 300px; resize: none;" placeholder="Enter text to translate..."></textarea>
-          <textarea id="translateOutput" readonly style="width: 50%; height: 300px; resize: none;" ></textarea>
-        </div>
-        <button id="translateButton" style="width: 30%; height: 50px; align-self: center; margin-top: 20px;">translate</button>
-      </div>
-      <script>
-        let mistranslateSettings = {
-          languages: 4,
-          splitPercent: 25,
-          leaveChance: 20,
-          continuous: false,
-          continuousDelay: 1000,
-          continuousMaxLoops: 3,
-          translatingMessage: "translating..."
-        };
-      </script>
-      <script src="src/main.js"></script>
-    </div>
+      <div class="mistranslationBox">
 
+      <div style="background-color: bisque;width: 80%; height: 500px; margin: auto; margin-top: 100px; outline: 1px solid black; font-size: 32px;">
+        <div style="display: flex; flex-direction: column;">
+          <p style="align-self: center">mistranslation</p>
+          <div style="display: flex; flex-direction: row;">
+        <div id="translateInput" contenteditable="true" class="editableBox">
+  Here are some examples:<br>
+  - Can you help me?<br>
+  - I was told to wait but I don't know who to see<br><br>
+
+  <span style="color:red;">
+    It's now a game of chance or a question of patience - will you hear me out?
+  </span>
+</div>
+<div id="translateOutput" class="mistranslationBox" style="width: 50%; height: 300px; resize: none">
+     </div>
+           
+          </div>
+          <button id="translateButton" style="width: 30%; height: 50px; align-self: center; margin-top: 20px;">translate</button>
+        </div>
+        <script>
+          let mistranslateSettings = {
+            languages: 2,
+            splitPercent: 25,
+            leaveChance: 20,
+            continuous: false,
+            continuousDelay: 1000,
+            continuousMaxLoops: 3,
+            translatingMessage: "translating..."
+          };
+        </script>
+        <script src="src/main.js"></script>
+      </div>
+
+    </div>
 
 
 
