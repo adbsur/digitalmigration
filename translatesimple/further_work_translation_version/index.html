@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>mistranslation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    
+
+
+
+    <!--
+    
+    PLEASE SKIM READ AT LEAST!!!
+    TO USE:
+
+    you need a text input box, marked with id="translateInput"
+    you need a text output box, marked with id="translateOutput"
+    you need a button, marked with id="translateButton"
+    
+    optional, set your settings using mistranslateSettings, as below
+    also include <script src="src/main.js"></script>
+
+
+    settings, which you can change as you need:
+
+    languages: number of languages to translate through
+    splitPercent: how split into chunks, translated individually, the text is
+    leaveChance: the percent chance that a word will be left, not translated back to english
+    continuous: whether to continuously translate the text, or just do it once
+    continuousDelay: if continuous is true, how long to wait between translations
+    continuousMaxLoops: if continuous is true, the maximum number of times to translate before repeating results
+    translatingMessage: the message to show in the output box while translating, before showing results
+
+
+    everything you need is in div below and main.js in src
+    adapt the code below or write your own
+    beware, the code looks for ids, so you cant have multiple inputs/outputs, so delete these if you want your own
+
+    -->
+
+    <div class="miniComputer">
+      <div class="mistranslationWindow">
+
+        <div style="display: flex; flex-direction: column;">
+          <p style="align-self: center">mistranslation</p>
+          <div style="display: flex; flex-direction: row;">
+            <div id="translateInput" contenteditable="true" class="editableBox">Here are some examples:<br>
+  - Can you help me?
+  - I was told to wait but I don't know who to see<br>
+              <span style="color:red;">It's now a game of chance or a question of patience - will you hear me out?
+              </span>
+            </div>
+            <div style="width: 25px"></div>
+            <div id="translateOutput" class="editableBox" style="width: 50%; height: 300px; resize: none"></div>
+          </div>
+          <button id="translateButton" style="font-family: minecraftia; font-size: 20px; width: 30%; height: 50px; align-self: center; margin-top: 20px;">translate</button>
+        </div>
+        <script>
+          let mistranslateSettings = {
+            languages: 3,
+            splitPercent: 30,
+            leaveChance: 15,
+            continuous: false,
+            continuousDelay: 1000,
+            continuousMaxLoops: 3,
+            translatingMessage: "translating..."
+          };
+        </script>
+        <script src="src/main.js"></script>
+      </div>
+
+    </div>
+
+
+
+
+    <!-- pop ups -- wip 
+
+
+        <style>
+        #popup {
+          display: none;
+          position: fixed;
+          inset: 0;
+
+          font-family: "minecraftia";
+          font-size: 10px;
+          justify-content: center;
+          align-items: center;
+        }
+        .popup-box {
+
+          padding: 24px;
+          border-radius: 4px;
+          width: 600px;
+          text-align: center;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+          height: 500px;
+          flex-direction: column;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top:100px;
+        }
+        button {
+          padding: 10px 10px;
+          border: none;
+          cursor: pointer;
+        }
+    </style>
+
+
+
+    <div id="popup">
+      <div class="popup-box">
+        <h1>WELCOME TRAVELLER</h1>
+        <p>text and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnottext and whatnot<br></br><br></br></p>
+        <button id="popup-close">Close</button>
+      </div>
+    </div>
+
+    <script>
+
+      window.onload = function () {
+
+        const popup = document.getElementById("popup");
+
+        /*
+        document
+          .getElementById("popup-open")
+          .onclick = function () {
+            popup.style.display = "flex";
+          };
+        */
+
+        document
+          .getElementById("popup-close")
+          .onclick = function () {
+            popup.style.display = "none";
+          };
+
+        popup.onclick = function (event) {
+          if (event.target === popup) {
+            popup.style.display = "none";
+          }
+        };
+
+        popup.style.display = "flex";
+      };
+    </script>
+
+    -->
+
+  </body>
+</html>
