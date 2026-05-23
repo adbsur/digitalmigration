@@ -9,7 +9,9 @@
 
 
  <title>Basic layout (wrapper + 3 columns)</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="Director.css">
+
  <style>
  
 @font-face {
@@ -61,45 +63,30 @@ src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey
 <script>
 const dialogue = [
   {
-    speaker: "Margaret Thatcher",
-    text: "I am Maggie Thatcher the Vampire… You want to speak to me immigration laws and of “keeping” britain white? Of course! If I hadn’t intervened, we would have a flood of people taking over the country."
+    speaker: "Director",
+    text: " I wanted to pull you aside to discuss the revisions to the script. There’s been some concern about the tone of the film. There have been some calls for it to be less fluid and for it to have more historical and geographical groundwork. So we’ve decided to go with 1850’s Mississippi, reimagined as a drama. It's going to be an adventure film under a revival of the modern hero, starring in the classic - Spaghetti Western! <br> PRESS ▶ TO CONTINUE </br>  "
   },
-  { speaker: "Margaret Thatcher",
-    text: " Rather than taking in people who disregard our rules and regulations, let’s take care of the people who were born here, or otherwise the most undeserving of us would outbreed the most deserving. It’s quite frankly about monitoring our resources…"
+  { speaker: "Director",
+    text: "Now, I know from our last conversation you wanted something more 'true' to your life - and I'm not dismissing that - but the team felt that your desire to convey <br> <em>(looks down at notes)</em> </br> the metaphysical shifts and anxieties of immigrants' is, while intellectually interesting, particularly symbolic. Abstract. What we need is physical imagery. Real, visceral — <em>grotesque</em> at times, yes — because that is how we accurately capture a period defined by violence, brutality, and oppression."
   },
   {
-    speaker: "Margaret Thatcher",
-    text: " You say we’re dependent on our Commonweatlh territories? I would disagree. All I can say is, we have too many low pay, low skilled workers coming into our country taking advantage of our facilities." 
+    speaker: "Director",
+    text: "I <em>hear</em> your concerns, I do - The script is somehow lacking your personhood. But this is precisely what I want to address, because I think it comes from a misunderstanding of what we're building. If you want to utilise the real power your story, you need to embrace the universality of the message. That is where the real power lives. Would a regular viewer understand what you're saying? To be honest with you, it sounds like what you want to make instead is an art film. For the commercial audience, for <em>this</em> audience, there needs to be a distinct separation - <em> art as fiction, documentary as presumed truth.</em>" 
   },
 
-  { speaker: "Margaret Thatcher",
-    text: "What, we asked them to - and promised to grant them automatic citizenship? I never promised them anything. What we did was perfectly legal."
+  { speaker: "Director",
+    text: "The self-sacrificing protagonist, the crisis-driven arc, the emotional catharsis - these things work because they are universal. They transcend culture and specificity. In the Western imagination, the archetype of the hero carries the moral weight, absorbs the grief, restores order - all so that  the audience can leave the cinema feeling changed. And that is what I do. I change people."
   },
 
-   { speaker: "Margaret Thatcher",
-    text: "The Global South say that we called them to travel from our colonies to make up for our worker shortage, as we were stunted post-war, but we called them over to rebuild our country not destabilise our rigid rules of citizenship. "
+   { speaker: "Director",
+    text: " Yes, it's an aesthetic shaped to fit mainstream tastes. But representation cannot carry the entire burden of justice — that is too much to ask of a single film. What we offer is a singular version of the truth. You speak of misremembered histories — well, cinema is not for that. It is fiction-making. A performance of violence, where real-world conflict gets no resolution. This film exists to satiate. My advice is to dissociate yourself from it. It does not represent the thing, it <em> is </em> the thing. There is something fundamentally irrational about committing yourself entirely to fictitious characters."
   },
 
   {
-    speaker: "Maragret Thatcher",
-    text: "… I see what you're refereing to as the Windrush scandal, but I never see them complaining- they remained. I never asked to depend on us (...only to rebuild our country)  They have children, settle here, and they want social protection on top of that?! It was seasonal work! THEY WERE NOT MEANT TO STAY"
-},
-{ speaker: "Margaret Thatcher",
-    text:"But That was the past. I would’t know anything going on now but ask anyone how they feel!!!! Going down [insert name] street, you get the smell of meat, whatever DIRTY meat, goat, dog in their bloody overalls. VERY different from where I’M from! And the noise and filth they make! If  You help every person who asks for a bit of change, we’d have nothing left!!"
-
+    speaker: "You",
+    text: "...So my family's trauma is a backdrop for your creative vision. I'll find someone else to direct my film — someone who won't exploit me and then explain why that would be a privilege."
 },
 
-{ speaker: "Margaret Thatcher",
-    text:"We are amidst a housing-crisis! Course these no space for newcomers! What we NEED to do with these immigrantS coming in,  is to tell them TO GO BACK TO WHERE THEY'RE FROM!! It’s NOT OUR PROBLEM THAT they have no documentation! ASYLUM? It’s charity WORK! WE ARE IN A MORAL CRISIS!!!!! The moment we help them, they return the favour by killing us off with their senseless behaviour. Mugging, raping, all sorts of crimes!!!! They come here to start families, have more children than they can handle-  If they controlled themselves, we wouldn’t be feeding so many mouths!!!!!"
-
-},
-
-{ speaker: "Margaret Thatcher",
-    text:" A MORALISED BRITAIN! SHOULD WE FOCUS ON OUR WEATH, WE'D BE IN A MUCH BETTER PLACE TO PROVIDE ALL OF THIS SKILL, KNOWLEDGE, CAPITAL TO THOSE SO URGENTLY NEEDY AND DESPERATE COUNTRIES! WHAT WE NEED IS A STRONG BRITAIN!"
-  },
-{ speaker: "Margaret Thatcher",
-    text:"....go away now"
-  }
 ];
 
 let index = -1;
@@ -118,15 +105,24 @@ function typeText(fullText) {
   currentText = fullText;
   textEl.innerHTML = "";
 
+  // Strip tags to get plain text for typing, but keep HTML for final render
+  const temp = document.createElement("div");
+  temp.innerHTML = fullText;
+  const plainText = temp.textContent;
+
   let i = 0;
 
   function addChar() {
-    textEl.innerHTML += fullText[i];
+    // Type plain text but reveal HTML progressively
+    const ratio = i / plainText.length;
+    const charCount = Math.floor(ratio * fullText.length);
+    textEl.innerHTML = fullText.substring(0, charCount);
     i++;
 
-    if (i < fullText.length) {
+    if (i <= plainText.length) {
       typeTimeout = setTimeout(addChar, 25);
     } else {
+      textEl.innerHTML = fullText; // ensure final render is complete
       typing = false;
     }
   }

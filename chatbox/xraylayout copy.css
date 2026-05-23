@@ -1,0 +1,42 @@
+/* fix noise overlay blocking mouse events */
+.noise {
+
+   pointer-events: none !important;
+  cursor: url("knife.cur"), auto;
+}
+
+/* fix broken filter rule on .item */
+.item {
+  position: absolute;
+  cursor: url("knife.cur"), auto;
+  user-select: none;
+  z-index: 10;
+  transition: filter 0.15s, transform 0.15s;
+  filter: drop-shadow(0px 0px 18px rgb(0, 255, 47));
+}
+
+/* info box */
+#info-box {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 1px solid #03A062;
+  color: #03A062;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+#info-box.active {
+  opacity: 1;
+}
+
+body {
+ color: #03A062;
+ font-size: 12px;
+ max-width: 900px;
+ margin: 20px auto;
+ padding: 0px 10px;
+ background: #000;
+ 
+  cursor: url("knife.cur"), auto;
+
+}

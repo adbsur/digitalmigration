@@ -113,22 +113,30 @@ const box = document.getElementById("dialogueBox");
 const speakerEl = document.getElementById("speaker");
 const textEl = document.getElementById("text");
 
-
 // ▶ TYPE TEXT FUNCTION
 function typeText(fullText) {
   typing = true;
   currentText = fullText;
   textEl.innerHTML = "";
 
+  // Strip tags to get plain text for typing, but keep HTML for final render
+  const temp = document.createElement("div");
+  temp.innerHTML = fullText;
+  const plainText = temp.textContent;
+
   let i = 0;
 
   function addChar() {
-    textEl.innerHTML += fullText[i];
+    // Type plain text but reveal HTML progressively
+    const ratio = i / plainText.length;
+    const charCount = Math.floor(ratio * fullText.length);
+    textEl.innerHTML = fullText.substring(0, charCount);
     i++;
 
-    if (i < fullText.length) {
+    if (i <= plainText.length) {
       typeTimeout = setTimeout(addChar, 25);
     } else {
+      textEl.innerHTML = fullText; // ensure final render is complete
       typing = false;
     }
   }

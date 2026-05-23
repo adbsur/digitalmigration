@@ -3,6 +3,9 @@ File 1
 <html lang="en">
 
 <head>
+    
+    
+
  <title>Dissect the Body</title>
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +14,7 @@ File 1
  <!-- META PROPERTIES -->
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- 
+
 </head>
 
 <body>
@@ -23,7 +26,7 @@ File 1
   </div>
 
   <!-- torso -->
-  <div class="item pop-in float-up" style="top:35%; left:24%; transform:rotate(5deg);" data-z="8">
+  <div class="item pop-in float-up" style="top:35%; left:24%; transform:rotate(5deg);" data-z="8"  id="torso-trigger">
     <img src="https://asjkndnkaof.carrd.co/assets/images/image14.png?v=5fd13bae" width="100" alt="download">
   =
   </div>
@@ -85,6 +88,7 @@ File 1
 
     <div class="heading">Style Testings</div>
     <div class="inner">
+        <div class="tooltip" id="my-tooltip">Your text here!</div>
      <h1>This is heading h1.</h1>
      <h2>This is heading h2</h2>
      <h3>This is heading h3. It keeps going until h6!</h3>
@@ -110,7 +114,22 @@ File 1
    </div>
 
   </div>
+  <!-- Add this just before </body> -->
+<script>
+  const trigger = document.getElementById('torso-trigger');
+  const tooltip = document.getElementById('my-tooltip');
+
+  trigger.addEventListener('mouseenter', () => {
+    tooltip.classList.add('visible');
+  });
+
+  trigger.addEventListener('mouseleave', () => {
+    tooltip.classList.remove('visible');
+  });
+
+
   
+</script>
 </body>
 
 

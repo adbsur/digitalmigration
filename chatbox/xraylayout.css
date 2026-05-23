@@ -11,6 +11,9 @@ body {
  margin: 20px auto;
  padding: 0px 10px;
  background: #000;
+ 
+  cursor: url("knife.cur"), auto;
+
 }
 
 
@@ -449,8 +452,21 @@ blockquote {
       z-index: 10;
       transition: filter 0.15s, transform 0.15s;
       filter: drop-shadow(0px 0px 6px rgb(0, 255, 30));
-      filter: drop-shadow(0px 0px 18px rgb(0, 255, 47);
+      filter: drop-shadow(0px 0px 18px rgb(0, 255, 47));
     }
 
 
 Resources1× 0.5× 0.25×Rerun
+
+
+#my-tooltip {
+  display: none;
+  background-color: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+#my-tooltip.visible {
+  display: block;
+}

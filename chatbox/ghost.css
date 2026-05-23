@@ -7,66 +7,22 @@
 
 
 .dialogue-box {
+  
  position:relative;
  display: flex;
   flex-direction: column; /* stack vertically */
-  width: 650px; /* controls overall size */
+  width: 550px; /* controls overall size */
 padding: 20px;
   z-index: 3;
   justify-content: flex-start; /* 🔥 key: stick content to top */
   overflow: hidden; /* keeps square intact */
 box-sizing: border-box;
-
   color: white;
 }
 
-.overlay1{
-position: absolute;
-  inset: 0;
 
-  background:url('https://asjkndnkaof.carrd.co/assets/images/image10.png?v=30e96eec');
-background-repeat: no-repeat;
- top: 180px;
- right: 200px;
- background-size: 185%;
-  z-index: 2;
-  pointer-events: none;
-  filter: drop-shadow(0 0 19px rgba(70, 167, 114, 0.819));
-}
 
-.overlay2{
-position: absolute;
-  inset: 0;
 
-  background:url('https://asjkndnkaof.carrd.co/assets/images/image11.png?v=2041307a');
-background-repeat: no-repeat;
- top: -20px;
- right: 230px;
- background-size: 100%;
-  pointer-events: none;
-  z-index:1;
-  
-}
-
-/* content ABOVE overlay */
-.character-box img,
-.text-box {
-  position: relative;
-  z-index: 5;
-}
-
-/* border/frame on top of everything */
-.dialogue-box::before {
-  content: "";
-  position: absolute;
-  inset: -45px -25px;
-
-  background: url('https://bordersjdkksks.carrd.co/assets/images/image05.png?v=cbe63db4')
-    center / 100% 100% no-repeat;
-
-  pointer-events: none;
-  z-index: 99;
-}
 
 /* BIG character box */
 .character-box {
@@ -75,19 +31,21 @@ background-repeat: no-repeat;
   aspect-ratio: 1 / 1; /* 🔥 makes it a perfect square */
 flex: 1 1 auto;
 height: 400px;
-  background: #FDEEFD;
-  overflow: hidden;
- 
+ background:url('https://asjkndnkaof.carrd.co/assets/images/image22.jpg?v=f3dd3f17')
+ background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
 
 }
 
 /* Image fills square */
 .character-box img {
-  width: 100%;
-  height: 100%;
+  width: 70%;
+  height: 70%;
   object-fit: contain; /* or 'contain' */
   padding: 0px;
-   transform: translateX(+160px);
+   transform: translatey(+160px);
 }
 
 /* Smaller text box */
@@ -95,6 +53,7 @@ height: 400px;
   
   
   font-family: "Pixelify Sans", mono-space;
+
     font-weight: 200;
   word-spacing: 10px; 
   width: 100%;
@@ -128,7 +87,7 @@ box-sizing: border-box;
   justify-content: center;
   align-items: center; /* optional: vertical centering */
 
-  background-image: url('https://bordersjdkksks.carrd.co/assets/images/image18.jpg?v=5b097a70');
+  background-image: url('https://asjkndnkaof.carrd.co/assets/images/image22.jpg?v=f3dd3f17');
    background-position: center;
   background-repeat: no-repeat;
   background-size: 100% 100%;

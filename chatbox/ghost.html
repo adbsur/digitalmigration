@@ -1,0 +1,185 @@
+
+
+<!DOCTYPE html>
+ <html lang="en">
+ 
+<head>
+    <meta charset="utf-8">
+<title>Basic layout (wrapper + 3 columns)</title>
+
+
+ <title>Basic layout (wrapper + 3 columns)</title>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ghost.css">
+
+ <style>
+ 
+@font-face {
+font-family: free pixel;
+src: url(https://dl.dropbox.com/scl/fi/rdqp269cj2uags1ta1ef3/FreePixel.ttf?rlkey=u1etxfizp0p3ywi5c63p82d3w&dl=0);
+}ß
+ 
+
+
+ </style>
+</head>
+<body>
+<!-- Marquee --> 
+<div class="marquee top">
+  <div class="marquee-text">
+   • SYSTEM MESSAGE: PRESS  ▶ ICON WHILE TALKING TO SPEED UP DIALOGUE  •
+  </div>
+</div>
+
+<div class="scene">
+  <div id="dialogueBox" class="dialogue-box">
+<div class="overlay1"></div>
+<div class="overlay2"></div>
+<div class="character-box">
+      <img id="characterImage" src="https://bordersjdkksks.carrd.co/assets/images/gallery09/7652c89a.png?v=5c09bcd5" alt="Character">
+    </div>
+
+    <div class="text-box">
+    <div id="speaker" class="speaker">NPC</div>
+   <div id="text" class="text"></div>
+   <span id="forwardButton" class="forward-btn">
+    ▶
+  </span>
+</div>
+
+
+  </div>
+  <!-- button -->
+<div class="button">
+
+  <a href = "/homepage/homepage.html" </a>
+  <span class="start-btn exit">EXIT</span>
+ 
+</div>
+
+
+
+
+<script>
+const dialogue = [
+  {
+    speaker: "Ghost in the flat",
+    text: "  I’ve been living here for 30 years…. My children have all left me.... <br>PRESS ▶ TO CONTINUE</br>"
+  },
+  { speaker: "Ghost in the flat",
+    text: " All the things about where I live have changed, except me. I stayed. Everything else feels different."
+  },
+  {
+    speaker: "Ghost in the flat",
+    text: "I tried to know my community, but it never existed for me. I guess they see me as fundamentally different to themselves. Or maybe they look down on me." 
+  },
+
+  { speaker: "Ghost in the flat",
+    text: "My neighbours are nice. We'll see each other, in and and out of houses, but mainly that's it. It's lucky to live in a quiet area like this- many families are on benefits like myself. But I can’t shake off that we’ve collectively been cast aside. No heating, black mould and unanswered letters piling up to the council. I think they want us to disappear."
+  },
+
+   { speaker: "Ghost in the flat",
+    text: " You tell me, I‘ve lived here for so long but <em>how do i stop measuring myself to others?</em> Even though I’m clinging to the walls, they’ll wring me out for being here."
+  },
+
+  {
+    speaker: "Ghost in the flat",
+    text: "Do you still see me? I just want to be invisible. "
+},
+
+];
+
+let index = -1;
+let typing = false;
+let currentText = "";
+let typeTimeout = null;
+
+const box = document.getElementById("dialogueBox");
+const speakerEl = document.getElementById("speaker");
+const textEl = document.getElementById("text");
+
+
+// ▶ TYPE TEXT FUNCTION
+function typeText(fullText) {
+  typing = true;
+  currentText = fullText;
+  textEl.innerHTML = "";
+
+  // Strip tags to get plain text for typing, but keep HTML for final render
+  const temp = document.createElement("div");
+  temp.innerHTML = fullText;
+  const plainText = temp.textContent;
+
+  let i = 0;
+
+  function addChar() {
+    // Type plain text but reveal HTML progressively
+    const ratio = i / plainText.length;
+    const charCount = Math.floor(ratio * fullText.length);
+    textEl.innerHTML = fullText.substring(0, charCount);
+    i++;
+
+    if (i <= plainText.length) {
+      typeTimeout = setTimeout(addChar, 25);
+    } else {
+      textEl.innerHTML = fullText; // ensure final render is complete
+      typing = false;
+    }
+  }
+
+  addChar();
+}
+
+
+// ▶ SKIP TYPE FUNCTION (IMPORTANT FIX)
+function skipTyping() {
+  clearTimeout(typeTimeout);       // stop animation loop
+  textEl.innerHTML = currentText;  // show full text instantly
+  typing = false;
+}
+
+
+// ▶ NEXT LINE FUNCTION
+function nextLine() {
+  index++;
+
+  if (index >= dialogue.length) {
+    speakerEl.innerText = "";
+    textEl.innerText = "(End)";
+    return;
+  }
+
+  const line = dialogue[index];
+
+  speakerEl.innerText = line.speaker;
+  typeText(line.text);
+}
+
+
+// ▶ INPUT HANDLER (CLICK / KEYBOARD)
+function advance() {
+  if (typing) {
+    skipTyping();
+  } else {
+    nextLine();
+  }
+}
+
+
+
+// ▶ FORWARD BUTTON SUPPORT
+const forwardBtn = document.getElementById("forwardButton");
+
+forwardBtn.addEventListener("click", function(e) {
+  
+     e.stopPropagation();
+    advance();
+  
+});
+
+
+// ▶ START GAME
+nextLine();
+</script>
+</body>
+</html>

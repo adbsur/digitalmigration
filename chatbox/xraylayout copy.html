@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <title>Dissect the Body</title>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link href="xraylayout.css" rel="stylesheet" type="text/css" media="all">
+ <style>
+   #info-box {
+     display: none;
+     padding: 10px 15px;
+     border: 1px solid #03A062;
+     color: #03A062;
+     margin-bottom: 10px;
+   }
+   #info-box.visible {
+     display: block;
+   }
+   .noise {
+     pointer-events: none !important;
+   }
+ </style>
+</head>
+
+<body>
+
+  <!-- feet -->
+  <div class="item pop-in" style="top:89%; left:24%; transform:rotate(-8deg);" data-z="5"
+       data-info="These are the feet. Text about feet goes here.">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/image15.png?v=5fd13bae" width="100" alt="spinning globe">
+  </div>
+
+  <!-- torso -->
+  <div class="item pop-in float-up" style="top:35%; left:24%; transform:rotate(5deg);" data-z="8"
+       data-info="This is the torso. Text about the torso goes here.">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/image14.png?v=5fd13bae" width="100" alt="download">
+  </div>
+
+  <!-- lizard -->
+  <div class="item pop-in" style="top:58%; left:24%; transform:rotate(-5deg);" data-z="22"
+       data-info="This is the lizard. Text about the lizard goes here.">
+    <img src="https://asjkndnkaof.carrd.co/assets/images/image18.png?v=5fd13bae" width="100" alt="under construction">
+  </div>
+
+  <div class="collage" id="collage"></div>
+
+  <!-- VHS EFFECTS -->
+  <div class="lines"></div>
+  <div class="main">
+   <div class="noise"></div>
+
+   <!-- HEADER -->
+   <div class="header">
+    DISSECT THE BODY
+   </div>
+
+   <!-- MAIN CONTAINER -->
+   <div class="row">
+    <div class="column side">
+     <img class="bg" src="https://asjkndnkaof.carrd.co/assets/images/image16.jpg?v=70e415dd" alt="">
+     <div class="text">
+      <center>
+       <form action="http://www.myspacegens.com/handler.php?gen=redirect" method="post">
+        <select name="url" style="width:150px; height:20px; background-color:#ffffff; color:#000; border:none;">
+         <option value="/">home</option>
+         <option value="/about.html">about</option>
+         <option value="/linkity.html">linkity</option>
+         <option value="/linkity2.html">linkity 2</option>
+        </select>
+        <input type="submit" style="background-color:#ffffff; color:#000; border:none;" value="Go!">
+       </form>
+      </center>
+     </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="column middle">
+
+     <!-- POST -->
+     <div class="heading">About The Layout</div>
+     <div class="inner">
+      <div class="tags">#Enjoy</div>
+     </div>
+
+     <div class="heading">Style Testings</div>
+     <div class="inner">
+
+      <!-- THIS IS THE BOX THAT APPEARS ON HOVER -->
+      <div id="info-box"></div>
+
+      <h1>This is heading h1.</h1>
+      <h2>This is heading h2</h2>
+      <h3>This is heading h3. It keeps going until h6!</h3>
+      <p>This is a paragraph</p>
+      <p>Here is an image:</p>
+      <img style="width:300px;" src="https://i.imgur.com/v86X3CT.png">
+
+      <p>This is a list:</p>
+      <ul>
+       <li><em>This is some slanty text.</em></li>
+       <li><b>This is some bold text.</b></li>
+       <li><a href="https://fwishy.neocities.org" target="blank">This is a linkity.</a></li>
+      </ul>
+
+      <blockquote cite="http://www.worldwildlife.org/who/index.html">
+       This is a block quote.<br>
+       Look, it can span multiple lines!
+      </blockquote>
+
+      <div class="tags">This is a box for tags (similar to many Tumblr themes), it can also be used as an alert box!</div>
+     </div>
+
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const infoBox = document.getElementById('info-box');
+    const items = document.querySelectorAll('.item');
+
+    items.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        infoBox.textContent = item.getAttribute('data-info');
+        infoBox.classList.add('visible');
+      });
+
+      item.addEventListener('mouseleave', () => {
+        infoBox.classList.remove('visible');
+        infoBox.textContent = '';
+      });
+    });
+  </script>
+
+</body>
+</html>
