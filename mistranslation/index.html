@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>mistranslation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="src/layout.js"></script>
+  </head>
+  <body>
+
+    <div class="miniComputer">
+      <div class="mistranslationWindow">
+        <div class="windowInner">
+      
+          <p style="align-self: center; font-size: 32px; margin: 0 0 8px 0;">mistranslation</p>
+      
+          <div class="windowRow">
+      
+            <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+              <p style="margin: 0px">input</p>
+              <div id="translateInput"
+                  contenteditable="true"
+                  class="editableBox">Here are some examples:<br>- Can you help me?<br>- I was told to wait but I don't know who to see<br>
+                <span style="color:red;">It's now a game of chance or a question of patience -<br>will you hear me out?
+                </span>
+              </div>
+            </div>
+      
+            <div style="display: flex; flex-direction: column; flex: 1; min-height: 0;">
+              <p style="margin: 0px">output</p>
+              <div id="translateOutput" class="editableBox"></div>
+            </div>
+      
+          </div>
+      
+          <button id="translateButton">translate</button>
+      
+        </div>
+        <script>
+          let mistranslateSettings = {
+            languages: 3,
+            splitPercent: 30,
+            leaveChance: 15,
+            continuous: false,
+            continuousDelay: 1000,
+            continuousMaxLoops: 3,
+            translatingMessage: "translating..."
+          };
+        </script>
+        <script src="src/main.js"></script>
+      </div>
+
+    </div>
+  
+
+  <svg style="position:absolute;width:0;height:0">
+    <defs>
+      <filter id="barrel">
+        <feImage href="src/bd9.png" result="map" preserveAspectRatio="none"/>
+        <feDisplacementMap in="SourceGraphic" in2="map"
+          scale="40" xChannelSelector="R" yChannelSelector="G"/>
+        <feOffset in="displaced" dx="-15" dy="-15"/>
+      </filter>
+    </defs>
+  </svg>
+  
+  
+  
+  </body>
+</html>
+
+
+
+<!--
+
+  TO DO:
+
+  fix offset from svg map               -- bandaid
+  smoothen svg curvature                -- not important
+  
+  blur/glow behind elements             -- close enough
+
+  larger background image               -- 
+
+  background line up and scalling       --
+
+
+
+  background screen image: 
+
+  is size 1632 × 1076 pixels
+
+  from top left -
+    active screen area, to match mistranslation window
+      from 230 400
+      to 690 720
+
+    screen with border, area that must be on screen surrounding active screen
+      from 100 300
+      to 820 860
+
+  use outside space to accomodate for other aspect ratios
+-->

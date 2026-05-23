@@ -1,0 +1,116 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #1A1A1A;
+}
+
+@font-face {
+  font-family: minecraftia;
+  src: url(https://dl.dropbox.com/s/qrro6u0lx00x66j/Minecraftia-Regular.ttf?);
+}
+
+.miniComputer {
+  position: fixed;
+  inset: 0;
+  background-image: url(./src/screen3.png);
+  background-color: #1A1A1A;
+  background-size: var(--bg-size, cover);
+  background-position: var(--bg-pos, center);
+  background-repeat: no-repeat;
+}
+
+
+.miniComputer::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.15) 0px,
+    rgba(1, 121, 51, 0.329) 1px,
+    transparent 3px,
+    transparent 5px
+  );
+  pointer-events: none; /* clicks pass through */
+  z-index: 999;
+
+
+}
+
+.mistranslationWindow {
+  position: fixed;
+  left:   var(--win-left,   10%);
+  top:    var(--win-top,    200px);
+  width:  var(--win-width,  460px);
+  height: var(--win-height, 320px);
+
+  font-family: minecraftia;
+  padding: 20px;
+  box-sizing: border-box;
+  outline: 4px solid white;
+  font-size: 20px;
+  color: white;
+  overflow: hidden;
+
+  filter:
+    url(#barrel)
+    drop-shadow(0 0 6px rgba(255,255,255,0.5));
+}
+
+.no-svg-filter .mistranslationWindow {
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+}
+
+
+
+/*
+.mistranslationWindow {
+  margin: 0;
+}
+*/
+.editableBox {
+  flex: 1;
+  min-height: 0;
+  height: auto; /* overrides the 300px */
+  border: 4px solid white;
+  overflow-y: auto;
+  padding: 8px;
+  white-space: pre-wrap;
+  font-family: minecraftia;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#translateButton {
+  font-family: minecraftia;
+  font-size: 14px;
+  width: 100%;
+  height: 36px;
+  align-self: center;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.windowInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.windowRow {
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
+  flex: 1;
+  min-height: 0;
+}
+
+.windowRow > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
