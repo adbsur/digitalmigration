@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hover Spotlight Gallery</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: #000000;
+      color: white;
+      overflow: hidden;
+
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* MAIN CONTENT AREA */
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 40px;
+    }
+
+    /* LEFT IMAGE SPOTLIGHT */
+    .spotlight {
+      width: 50%;
+      height: 70vh;
+
+      background-size: cover;
+      background-position: center;
+
+      transition: background-image 0.1s ease;
+    }
+
+    /* RIGHT TEXT BOX */
+    .info-box {
+      width: 35%;
+      height: 70vh;
+
+      background: rgba(50,0,0,1);
+      padding: 30px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      transition: all 0.1s ease;
+    }
+
+    .info-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .info-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* BOTTOM GALLERY BAR */
+    .gallery-bar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+
+      padding: 30px;
+
+      background: rgba(0,0,50,1);
+      backdrop-filter: blur(10px);
+    }
+
+    /* RECTANGLE BUTTONS */
+    .thumb {
+      width: 120px;
+      height: 70px;
+
+      cursor: pointer;
+
+      border: 3px solid transparent;
+
+      background-size: cover;
+      background-position: center;
+
+      opacity: 1;
+
+      transition:
+        transform 0.1s ease,
+        border 0.1s ease,
+        opacity 0.1s ease;
+    }
+
+    .thumb:hover {
+      transform: scale(1.2);
+      border-color: rgb(0,150,0);
+      opacity: 1;
+    }
+
+    /* INITIAL STATE */
+    .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+
+      font-size: 1.4rem;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* FULL BOX */
+    .instructions {
+      width: 100%;
+      text-align: center;
+    }
+
+    .instructions h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .instructions p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.8);
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-content">
+
+  <!-- LEFT IMAGE AREA -->
+  <div class="spotlight hidden" id="spotlight">
+
+  </div>
+
+  <!-- FULL WIDTH INFO BOX -->
+  <div class="info-box" id="infoBox">
+    <div class="instructions" id="instructions">
+      <h1>Welcome</h1>
+
+      <p>
+        Move your mouse over any rectangle below.
+        <br><br>
+        Each item will display a different image and description here.
+      </p>
+    </div>
+
+    <!-- HIDDEN CONTENT -->
+    <div class="content hidden" id="content">
+      <div class="info-title" id="infoTitle"></div>
+      <div class="info-text" id="infoText"></div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- BOTTOM SELECTORS -->
+  <div class="gallery-bar">
+
+    <div
+      class="thumb"
+      style="background-image:url('https://picsum.photos/id/1015/300/200')"
+
+      data-image="https://picsum.photos/id/1015/1200/700"
+      data-title="Mountain Escape"
+      data-text="A peaceful mountain landscape with misty forests and dramatic natural scenery."
+    ></div>
+
+    <div
+      class="thumb"
+      style="background-image:url('https://picsum.photos/id/1025/300/200')"
+
+      data-image="https://picsum.photos/id/1025/1200/700"
+      data-title="Wild Companion"
+      data-text="A curious dog portrait with soft lighting and a warm, friendly atmosphere."
+    ></div>
+
+    <div
+      class="thumb"
+      style="background-image:url('https://picsum.photos/id/1035/300/200')"
+
+      data-image="https://picsum.photos/id/1035/1200/700"
+      data-title="Ocean Journey"
+      data-text="A calm ocean scene with open skies and cinematic blue tones stretching into the horizon."
+    ></div>
+
+    <div
+      class="thumb"
+      style="background-image:url('https://picsum.photos/id/1043/300/200')"
+
+      data-image="https://picsum.photos/id/1043/1200/700"
+      data-title="Desert Light"
+      data-text="Golden desert textures illuminated by soft evening sunlight and long shadows."
+    ></div>
+
+  </div>
+
+<script>
+  const spotlight = document.getElementById("spotlight");
+
+  const infoTitle = document.getElementById("infoTitle");
+  const infoText = document.getElementById("infoText");
+
+  const instructions = document.getElementById("instructions");
+  const content = document.getElementById("content");
+
+  const thumbs = document.querySelectorAll(".thumb");
+
+  thumbs.forEach(thumb => {
+
+    thumb.addEventListener("mouseenter", () => {
+
+      const image = thumb.dataset.image;
+      const title = thumb.dataset.title;
+      const text = thumb.dataset.text;
+
+      // Remove placeholder
+      spotlight.classList.remove("placeholder");
+
+      // Set image
+      spotlight.style.backgroundImage = `url('${image}')`;
+
+      // Hide instructions
+      instructions.classList.add("hidden");
+
+      // Show content
+      content.classList.remove("hidden");
+      spotlight.classList.remove("hidden");
+
+      // Update text
+      infoTitle.textContent = title;
+      infoText.textContent = text;
+    });
+
+  });
+</script>
+
+</body>
+</html>
