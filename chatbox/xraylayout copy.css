@@ -2,12 +2,22 @@
   font-family: minecraftia;
   src: url(https://dl.dropbox.com/s/qrro6u0lx00x66j/Minecraftia-Regular.ttf?);
 }
-
 #info-box {
   display: none;
+  padding: 10px 15px;
+  border: 1px solid #03A062;
+  color: #03A062;
+  margin-bottom: 0px;
 }
 #info-box.visible {
   display: block;
+}
+#info-box p {
+  margin: 0 0 0.8em 0;
+  line-height: 1.6;
+}
+#info-box p:last-child {
+  margin-bottom: 0;
 }
 .noise {
   pointer-events: none !important;
@@ -16,7 +26,7 @@
 .start-btn {
   text-align: center;
   display: inline-block;
-  margin: 5px;
+  margin: 10px;
   font-weight: bold;
   background-color: lightgray !important;
   text-shadow: -1px -1px black, 1px 1px white !important;
@@ -24,11 +34,12 @@
   border-radius: 7px;
   box-shadow: 0 .2em gray !important;
   cursor: pointer;
-  font-size: 60px;
-  padding: 20px;
-  width: 200px;
+  font-size: 30px;
+  padding: 12px;
+  width: 70px;
   height: 25px;
   line-height: 10px;
+  
 }
 .exit {
   position: fixed;
@@ -479,7 +490,7 @@ a:active {
 }
  .item {
       position: absolute;  /* ← REQUIRED — this is what lets top/left positioning work */
-      cursor: grab;
+      cuxrsor: grab;
       user-select: none;
       z-index: 10;
       transition: filter 0.15s, transform 0.15s;

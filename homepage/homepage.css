@@ -2,6 +2,8 @@
   font-family: minecraftia;
   src: url(https://dl.dropbox.com/s/qrro6u0lx00x66j/Minecraftia-Regular.ttf?);
 }
+
+
 body {
   cursor: url("select.cur"), auto;
 }
@@ -109,7 +111,16 @@ min-height: 100vh;
  {
     position: relative;
   z-index: 99;
+  padding: 70px;
+  margin: 0px;
+    font-family: "Press Start 2P";
 }
+
+}
+
+h1 {text-align: center;}
+
+h2 {text-align: left;}
 
 
 /* ───────────── SPARKLES ───────────── */

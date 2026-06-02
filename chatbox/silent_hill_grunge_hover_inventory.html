@@ -1,0 +1,551 @@
+<html>
+  <html lang="en">
+
+<head>
+ <h1 style="font-size:50px;">DISSECT THE BODY</h1>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+
+ </head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  .sh-root {
+    background: #080706;
+    border: 2px solid #1a1210;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scanlines {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.22) 3px, rgba(0,0,0,0.22) 4px);
+    pointer-events: none; z-index: 20;
+  }
+  .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.7) 100%);
+    pointer-events: none; z-index: 19;
+  }
+  .scratch-layer {
+    position: absolute; inset: 0;
+    pointer-events: none; z-index: 18; overflow: hidden;
+  }
+
+  .rust-border-top {
+    height: 6px; background: #1a0e0a;
+    border-bottom: 1px solid #2d1a10;
+    position: relative; overflow: hidden;
+  }
+  .rust-streak {
+    position: absolute; top: 0; bottom: 0;
+    background: #3a1a0a; opacity: 0.6;
+  }
+  .noise-bar {
+    height: 2px; background: #0e0a06;
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid #160e08;
+  }
+  .noise-pulse {
+    height: 100%; background: #2a1208; width: 20%;
+    animation: noisepulse 3s ease-in-out infinite;
+  }
+  @keyframes noisepulse {
+    0%{transform:translateX(-100%);opacity:.3} 50%{opacity:1} 100%{transform:translateX(600%);opacity:.3}
+  }
+
+  .sh-header {
+    background: #0a0807; border-bottom: 1px solid #1a1008;
+    padding: 10px 16px 8px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+  }
+  .title-block { display: flex; flex-direction: column; gap: 3px; }
+  .sh-game-title {
+    font-family: 'Special Elite', serif;
+    color: #b8946a; font-size: 18px; letter-spacing: 5px;
+  }
+  .sh-subtitle { color: #3a2a1a; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+  .sh-star { color: #4a2a1a; font-size: 10px; letter-spacing: 6px; margin-top: 2px; }
+  .status-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  .health-row { display: flex; align-items: center; gap: 8px; }
+  .health-label { color: #3a2018; font-size: 10px; letter-spacing: 2px; }
+  .health-track {
+    width: 90px; height: 8px; background: #0e0a06;
+    border: 1px solid #2a1408; position: relative; overflow: hidden;
+  }
+  .health-fill { height: 100%; width: 38%; background: #7a1a08; }
+  .health-tick { position: absolute; top: 0; bottom: 0; width: 1px; background: #0e0a06; }
+  .caution-text {
+    color: #c0392b; font-size: 10px; letter-spacing: 2px;
+    animation: flicker 1.6s step-start infinite;
+  }
+  @keyframes flicker { 0%,100%{opacity:1} 20%{opacity:.2} 40%{opacity:1} 60%{opacity:.4} 80%{opacity:1} }
+  .loc-text { color: #2a1a0e; font-size: 10px; letter-spacing: 1px; }
+  .radio-row { display: flex; align-items: center; gap: 5px; }
+  .radio-pip {
+    width: 5px; height: 5px; border-radius: 50%; background: #8b1a1a;
+    animation: pip .9s step-start infinite;
+  }
+  @keyframes pip { 0%,100%{opacity:1} 50%{opacity:.1} }
+  .radio-label { color: #6a1a1a; font-size: 9px; letter-spacing: 2px; animation: pip .9s step-start infinite; }
+
+  .sh-body { padding: 12px 14px 14px; }
+  .section-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px; border-bottom: 1px solid #160e08; padding-bottom: 6px;
+  }
+  .section-label { color: #3a2214; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; }
+  .section-count { color: #261a0e; font-size: 10px; }
+
+  .carousel-outer { overflow: hidden; position: relative; }
+  .carousel-track {
+    display: flex; gap: 8px;
+    transition: transform 0.4s cubic-bezier(0.23,1,0.32,1);
+  }
+
+  .sh-slot {
+    flex: 0 0 146px;
+    background: #0a0806; border: 1px solid #1e1208;
+    padding: 9px; cursor: pointer; position: relative;
+    transition: border-color 0.25s;
+  }
+  .sh-slot::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: #1e1208; transition: background 0.25s;
+  }
+  .sh-slot:hover { border-color: #5a2a10; }
+  .sh-slot:hover::before { background: #5a2a10; }
+  .sh-slot.selected { border-color: #8b3010; background: #0d0a06; }
+  .sh-slot.selected::before { background: #c0392b; }
+
+  .sel-corner { position: absolute; width: 6px; height: 6px; border-color: #8b3010; border-style: solid; opacity: 0; transition: opacity .2s; }
+  .sh-slot.selected .sel-corner { opacity: 1; }
+  .sel-corner.tl{top:3px;left:3px;border-width:1px 0 0 1px;}
+  .sel-corner.tr{top:3px;right:3px;border-width:1px 1px 0 0;}
+  .sel-corner.bl{bottom:3px;left:3px;border-width:0 0 1px 1px;}
+  .sel-corner.br{bottom:3px;right:3px;border-width:0 1px 1px 0;}
+
+  .item-frame {
+    width: 100%; aspect-ratio: 1;
+    background: #060504; border: 1px solid #160e06;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px; position: relative; overflow: visible;
+  }
+  .item-frame::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg,transparent,transparent 6px,rgba(255,255,255,.008) 6px,rgba(255,255,255,.008) 7px);
+  }
+  .item-frame::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(0,0,0,.55) 100%);
+  }
+  .item-svg { width: 56px; height: 56px; position: relative; z-index: 1; }
+
+  .item-badge {
+    position: absolute; bottom: 3px; right: 3px; z-index: 2;
+    font-size: 8px; padding: 1px 4px; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .b-weapon{background:#1a0404;color:#9a2a2a;border-top:1px solid #5a1010;}
+  .b-med{background:#041208;color:#2a7a40;border-top:1px solid #105a20;}
+  .b-ammo{background:#080818;color:#4a4aaa;border-top:1px solid #20205a;}
+  .b-key{background:#140e00;color:#9a7020;border-top:1px solid #5a4010;}
+  .b-note{background:#100c08;color:#6a5a48;border-top:1px solid #302820;}
+
+  .item-name { color: #8a7060; font-size: 11px; line-height: 1.3; margin-bottom: 3px; }
+  .item-qty  { color: #2e2018; font-size: 10px; }
+
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 10px; padding-top: 8px; border-top: 1px solid #160e08;
+  }
+  .nav-hint { color: #2e1e10; font-size: 10px; letter-spacing: 2px; }
+  .nav-btns { display: flex; gap: 6px; align-items: center; }
+  .nav-btn {
+    background: #0a0806; border: 1px solid #1e1208;
+    color: #4a3020; font-family: 'Share Tech Mono', monospace;
+    font-size: 13px; width: 26px; height: 26px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: border-color .2s, color .2s;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: #8b3010; color: #c0392b; }
+  .nav-btn:disabled { opacity: .2; cursor: default; }
+  .page-ind { color: #2e1e10; font-size: 10px; letter-spacing: 1px; min-width: 30px; text-align: center; }
+
+  .detail-panel {
+    margin-top: 12px; background: #080604;
+    border: 1px solid #160e08; border-top: 1px solid #2d1408;
+    padding: 12px 14px 14px; min-height: 116px; position: relative;
+  }
+  .detail-panel::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 1px;
+    background: #c0392b;
+  }
+  .detail-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+  .detail-name { font-family: 'Special Elite', serif; color: #c8a070; font-size: 15px; letter-spacing: 1px; }
+  .detail-radio {
+    display: flex; align-items: center; gap: 4px;
+    background: #0e0806; border: 1px solid #1a0e08; padding: 2px 6px;
+  }
+  .detail-desc {
+    color: #3a2a1a; font-size: 11px; line-height: 1.75; margin-bottom: 10px;
+    border-left: 2px solid #1a0e08; padding-left: 8px;
+  }
+ 
+
+
+  .blood-drip { position: absolute; top: 0; width: 1px; background: #5a0a0a; opacity: .4; }
+
+  /* ── HOVER POPUP ── */
+  .item-popup {
+    display: none;
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%) scale(0.92);
+    width: 220px;
+    background: #080604;
+    border: 1px solid #3a1a08;
+    border-top: 2px solid #0aec87;
+    padding: 12px;
+    z-index: 200;
+    pointer-events: none;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    opacity: 0;
+  }
+  .item-popup.visible {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .popup-scan {
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.18) 3px,rgba(0,0,0,.18) 4px);
+    pointer-events: none;
+  }
+  .popup-corner { position: absolute; width: 7px; height: 7px; border-color: #00ff55; border-style: solid; }
+  .popup-corner.tl{top:4px;left:4px;border-width:1px 0 0 1px;}
+  .popup-corner.tr{top:4px;right:4px;border-width:1px 1px 0 0;}
+  .popup-corner.bl{bottom:4px;left:4px;border-width:0 0 1px 1px;}
+  .popup-corner.br{bottom:4px;right:4px;border-width:0 1px 1px 0;}
+
+  .popup-art {
+    width: 100%; aspect-ratio: 1;
+    background: #050403;
+    border: 1px solid #1e1008;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .popup-art::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(0,0,0,0.65) 100%);
+  }
+  .popup-art-svg { width: 120px; height: 120px; position: relative; z-index: 1; }
+  .popup-art::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg,transparent,transparent 5px,rgba(255,255,255,.006) 5px,rgba(255,255,255,.006) 6px);
+  }
+
+  .popup-examine {
+    color: #3a1a0a; font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .popup-name {
+    font-family: 'Special Elite', serif;
+    color: #c8a070; font-size: 14px; letter-spacing: 1px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #1e1008;
+    padding-bottom: 5px;
+  }
+  .popup-flavour {
+    color: #4a3020; font-size: 10px; line-height: 1.7;
+    margin-bottom: 8px;
+  }
+ 
+ 
+
+  .popup-tag {
+    display: inline-block; font-size: 8px; padding: 1px 5px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-top: 7px;
+  }
+
+  .carousel-outer { overflow: visible !important; }
+</style>
+<body>
+<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Silent Hill inventory carousel with hover close-up popups for each item</h2>
+
+<div class="sh-root">
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div class="scratch-layer">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
+      <line x1="0" y1="38" x2="680" y2="42" stroke="#fff" stroke-width="0.3" opacity="0.04"/>
+      <line x1="120" y1="0" x2="118" y2="700" stroke="#fff" stroke-width="0.2" opacity="0.03"/>
+      <line x1="340" y1="0" x2="344" y2="700" stroke="#fff" stroke-width="0.15" opacity="0.025"/>
+      <line x1="0" y1="210" x2="680" y2="214" stroke="#fff" stroke-width="0.2" opacity="0.03"/>
+      <line x1="500" y1="0" x2="496" y2="700" stroke="#fff" stroke-width="0.25" opacity="0.02"/>
+    </svg>
+  </div>
+  <div class="rust-border-top">
+    <div class="rust-streak" style="left:8%;width:3%;"></div>
+    <div class="rust-streak" style="left:55%;width:4%;"></div>
+    <div class="rust-streak" style="left:78%;width:2%;opacity:.5;"></div>
+  </div>
+  <div class="noise-bar"><div class="noise-pulse"></div></div>
+  <div style="position:absolute;right:0;top:0;bottom:0;width:3px;background:#0a0806;border-left:1px solid #1a0e08;z-index:5;">
+    <div class="blood-drip" style="top:20px;height:60px;left:1px;"></div>
+  </div>
+
+  <div class="sh-header">
+    <div class="title-block">
+      <div class="sh-game-title">SILENT HILL</div>
+      <div class="sh-subtitle">field inventory &mdash; james sunderland</div>
+    
+    </div>
+   
+
+        
+   
+    
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="sh-body">
+    <div class="section-row">
+      <div class="section-label">&#9632; ITEMS</div>
+      <div class="section-count">8 / 12 slots &mdash; hover to examine</div>
+    </div>
+
+    <div class="carousel-outer" id="carOuter">
+      <div class="carousel-track" id="carTrack"></div>
+    </div>
+
+    <div class="nav-row">
+      <div class="nav-hint">&#9632; SELECT / EXAMINE</div>
+      <div class="nav-btns">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous">&lt;</button>
+        <div class="page-ind" id="pageInd">1 / 2</div>
+        <button class="nav-btn" id="nextBtn" aria-label="Next">&gt;</button>
+      </div>
+    </div>
+
+    <div class="detail-panel">
+      <div class="detail-panel" style="margin-top:0;border:none;padding:0;min-height:0;background:transparent;">
+        <div style="position:absolute;top:0;left:0;width:40px;height:1px;background:#c0392b;"></div>
+      </div>
+      <div class="detail-header">
+  <div class="detail-name" id="dName"></div>
+  <div class="detail-radio">
+    <div class="radio-pip" style="width:4px;height:4px;"></div>
+    <span class="radio-label">REC</span>
+  </div>
+</div>
+
+<div class="detail-desc" id="dDesc"></div>
+    </div>
+  </div>
+  <div class="noise-bar" style="border-bottom:none;border-top:1px solid #160e08;">
+    <div class="noise-pulse" style="animation-delay:1.5s;"></div>
+  </div>
+</div>
+</body>
+<script>
+const ITEMS = [
+  {
+    badge:"weapon", bc:"b-weapon",
+    name:"Steel Pipe",
+    qty:"1 unit",
+    flavour:"Something darker coats the striking end.",
+    desc:'A length of industrial pipe torn from the Woodside Apartments boiler room. Rust and something darker coats the striking end. It feels right in the hand.',
+    stats:{type:"melee",damage:"medium",durability:"78%"},
+    popStats:{dmg:"medium",dur:"78%",wt:"1.2kg"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="25" width="44" height="6" fill="#2a2218" rx="1"/><rect x="6" y="26" width="44" height="2" fill="#3a3228"/><rect x="4" y="23" width="7" height="10" fill="#1e1810" rx="1"/><rect x="47" y="23" width="7" height="10" fill="#1e1810" rx="1"/><rect x="38" y="25" width="5" height="1" fill="#4a3a28" opacity="0.5"/><rect x="47" y="25" width="7" height="2" fill="#3a1008" opacity="0.6"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="52" width="104" height="14" fill="#2a2218" rx="2"/><rect x="8" y="54" width="104" height="5" fill="#3a3228"/><rect x="6" y="47" width="16" height="24" fill="#1e1810" rx="2"/><rect x="100" y="47" width="18" height="24" fill="#1e1810" rx="2"/><rect x="80" y="52" width="12" height="3" fill="#4a3a28" opacity="0.5"/><rect x="100" y="54" width="18" height="5" fill="#3a1008" opacity="0.6"/><rect x="10" y="58" width="6" height="2" fill="#5a2010" opacity="0.4"/><rect x="20" y="56" width="3" height="1" fill="#5a2010" opacity="0.3"/></svg>`
+  },
+  {
+    
+    name:"Health Drink",
+    qty:"x3",
+    flavour:"The child on the label has no eyes.",
+    desc:'Mayu brand mineral water. The label shows a child smiling near a lake. The child\'s eyes have been scratched out. Restores partial health.',
+  
+    popStats:{heals:"partial",uses:"3",wt:"0.4kg"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="12" width="16" height="34" fill="#081410" rx="2" stroke="#0e2818" stroke-width="1"/><rect x="22" y="8" width="12" height="6" fill="#060e08" rx="1"/><rect x="22" y="18" width="12" height="2" fill="#104030" opacity="0.6"/><rect x="22" y="28" width="12" height="8" fill="#0c3020" opacity="0.5"/><rect x="20" y="38" width="16" height="4" fill="#061008" opacity="0.8"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="42" y="22" width="36" height="76" fill="#081410" rx="4" stroke="#0e2818" stroke-width="1.5"/><rect x="46" y="12" width="28" height="14" fill="#060e08" rx="2"/><rect x="46" y="38" width="28" height="4" fill="#104030" opacity="0.6"/><rect x="46" y="58" width="28" height="18" fill="#0c3020" opacity="0.5"/><rect x="50" y="63" width="9" height="2" fill="#188050" opacity="0.5"/><rect x="42" y="82" width="36" height="10" fill="#061008" opacity="0.8"/><rect x="50" y="48" width="6" height="2" fill="#206040" opacity="0.3"/></svg>`
+  },
+  {
+   
+    name:"Handgun Bullets",
+    qty:"x14",
+    flavour:"Room 208 was locked from the inside.",
+    desc:'9mm rounds found scattered across Room 208. The door was locked from the inside. All the furniture was facing the wall.',
+   
+    popStats:{cal:"9mm",rds:"14",type:"ammo"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="32" width="7" height="14" fill="#22200e" rx="1"/><rect x="18" y="22" width="7" height="12" fill="#32301a" rx="1"/><ellipse cx="21.5" cy="21" rx="3.5" ry="4" fill="#42402a"/><rect x="31" y="28" width="7" height="14" fill="#22200e" rx="1"/><rect x="31" y="18" width="7" height="12" fill="#32301a" rx="1"/><ellipse cx="34.5" cy="17" rx="3.5" ry="4" fill="#42402a"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="64" width="16" height="34" fill="#22200e" rx="2"/><rect x="28" y="40" width="16" height="28" fill="#32301a" rx="2"/><ellipse cx="36" cy="38" rx="8" ry="10" fill="#42402a"/><rect x="52" y="56" width="16" height="34" fill="#22200e" rx="2"/><rect x="52" y="32" width="16" height="28" fill="#32301a" rx="2"/><ellipse cx="60" cy="30" rx="8" ry="10" fill="#42402a"/><rect x="76" y="70" width="16" height="26" fill="#22200e" rx="2"/><rect x="76" y="48" width="16" height="26" fill="#32301a" rx="2"/><ellipse cx="84" cy="46" rx="8" ry="10" fill="#42402a"/></svg>`
+  },
+  {
+    badge:"key", bc:"b-key",
+    name:"Lakeview Hotel Key",
+    qty:"Room 312",
+    flavour:"It smells of mildew and a perfume you know.",
+    desc:'Tarnished brass. The room tag is stained brown. It smells of mildew and a perfume you recognise but cannot name.',
+    stats:{type:"key item",room:"312",floor:"3rd"},
+    popStats:{room:"312",floor:"3rd",mat:"brass"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="24" r="9" fill="none" stroke="#6a5010" stroke-width="2"/><circle cx="20" cy="24" r="4" fill="none" stroke="#4a3808" stroke-width="1.5"/><rect x="28" y="23" width="20" height="3" fill="#6a5010" rx="1"/><rect x="41" y="26" width="3" height="5" fill="#5a4010" rx="1"/><rect x="35" y="26" width="3" height="4" fill="#5a4010" rx="1"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><circle cx="42" cy="52" rx="22" ry="22" fill="none" stroke="#6a5010" stroke-width="4" cx="42" cy="52" r="22"/><circle cx="42" cy="52" r="10" fill="none" stroke="#4a3808" stroke-width="3"/><rect x="62" y="50" width="48" height="7" fill="#6a5010" rx="2"/><rect x="98" y="57" width="7" height="12" fill="#5a4010" rx="1"/><rect x="83" y="57" width="7" height="10" fill="#5a4010" rx="1"/><rect x="40" y="40" width="4" height="24" fill="#2a1808" opacity="0.3"/></svg>`
+  },
+  {
+    badge:"weapon", bc:"b-weapon",
+    name:"Shotgun",
+    qty:"1 unit",
+    flavour:"A handprint in rust marks the stock.",
+    desc:'Pump-action, found propped in the boiler room. One shell chambered. A handprint in rust on the stock.',
+    stats:{type:"firearm",damage:"high",ammo:"SG shells"},
+    popStats:{dmg:"high",type:"firearm",ammo:"SG shells"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="26" width="34" height="4" fill="#1e1810" rx="1"/><rect x="4" y="27" width="34" height="2" fill="#2a2418"/><rect x="36" y="24" width="16" height="3" fill="#141008" rx="1"/><rect x="36" y="29" width="16" height="3" fill="#141008" rx="1"/><rect x="6" y="30" width="16" height="7" fill="#1a1610" rx="1"/><rect x="20" y="25" width="5" height="5" fill="#2a2418"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="56" width="76" height="9" fill="#1e1810" rx="2"/><rect x="4" y="58" width="76" height="4" fill="#2a2418"/><rect x="78" y="51" width="38" height="7" fill="#141008" rx="2"/><rect x="78" y="62" width="38" height="7" fill="#141008" rx="2"/><rect x="8" y="65" width="36" height="16" fill="#1a1610" rx="2"/><rect x="42" y="55" width="12" height="11" fill="#2a2418"/><rect x="10" y="68" width="22" height="4" fill="#0e0c08" opacity="0.5"/><rect x="20" y="56" width="8" height="2" fill="#3a1008" opacity="0.4"/></svg>`
+  },
+  {
+    badge:"note", bc:"b-note",
+    name:"Mary's Letter",
+    qty:"1 of 1",
+    flavour:"The ink is smeared. Water, or something else.",
+    desc:'"In my restless dreams I see that town. Silent Hill..." The ink is smeared. Water damage, or something else.',
+    stats:{type:"key item",reads:"1",pages:"2"},
+    popStats:{type:"key",pages:"2",reads:"1"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="12" width="36" height="32" fill="#100e0a" rx="1" stroke="#201808" stroke-width="1"/><line x1="10" y1="12" x2="28" y2="23" stroke="#181408" stroke-width="0.8"/><line x1="46" y1="12" x2="28" y2="23" stroke="#181408" stroke-width="0.8"/><rect x="14" y="26" width="28" height="1.5" fill="#201a12"/><rect x="14" y="30" width="28" height="1.5" fill="#201a12"/><rect x="14" y="34" width="20" height="1.5" fill="#201a12"/><rect x="14" y="38" width="24" height="1.5" fill="#201a12"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="16" width="84" height="88" fill="#100e0a" rx="2" stroke="#201808" stroke-width="1.5"/><line x1="18" y1="16" x2="60" y2="42" stroke="#181408" stroke-width="1.2"/><line x1="102" y1="16" x2="60" y2="42" stroke="#181408" stroke-width="1.2"/><rect x="26" y="54" width="68" height="3" fill="#201a12"/><rect x="26" y="62" width="68" height="3" fill="#201a12"/><rect x="26" y="70" width="50" height="3" fill="#201a12"/><rect x="26" y="78" width="60" height="3" fill="#201a12"/><rect x="26" y="86" width="40" height="3" fill="#201a12"/><rect x="50" y="54" width="10" height="36" fill="#2a1808" opacity="0.1"/></svg>`
+  },
+  {
+    badge:"med", bc:"b-med",
+    name:"First-Aid Kit",
+    qty:"x1",
+    flavour:"The morphine ampoule is still intact.",
+    desc:'Most bandages already used. Antiseptic empty. The morphine ampoule remains intact — you are hesitant to ask why.',
+    stats:{type:"consumable",heals:"full",weight:"0.9kg"},
+    popStats:{heals:"full",wt:"0.9kg",uses:"1"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="16" width="32" height="24" fill="#140606" rx="1" stroke="#2a0808" stroke-width="1"/><rect x="24" y="20" width="8" height="16" fill="#2a0a0a"/><rect x="16" y="24" width="24" height="8" fill="#2a0a0a"/><rect x="25.5" y="21.5" width="5" height="13" fill="#4a0a0a"/><rect x="17.5" y="25.5" width="21" height="5" fill="#4a0a0a"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="28" width="72" height="60" fill="#140606" rx="2" stroke="#2a0808" stroke-width="2"/><rect x="50" y="36" width="20" height="44" fill="#2a0a0a"/><rect x="30" y="48" width="60" height="20" fill="#2a0a0a"/><rect x="53" y="38" width="14" height="40" fill="#4a0a0a"/><rect x="32" y="51" width="56" height="14" fill="#4a0a0a"/><rect x="24" y="80" width="72" height="6" fill="#0e0404" opacity="0.7"/></svg>`
+  },
+  {
+    badge:"key", bc:"b-key",
+    name:"Flashlight",
+    qty:"62% battery",
+    flavour:"Things move just beyond the beam's edge.",
+    desc:'The beam carries ten feet before the fog swallows it. You can hear things moving in the dark just beyond that edge.',
+    stats:{type:"tool",battery:"62%",range:"~10ft"},
+    popStats:{bat:"62%",range:"10ft",type:"tool"},
+    svg:`<svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="30" width="14" height="18" fill="#181610" rx="1"/><polygon points="18,30 38,30 34,14 22,14" fill="#222018"/><ellipse cx="28" cy="14" rx="7" ry="2.5" fill="#2e2c20"/><ellipse cx="28" cy="13.5" rx="4" ry="1.5" fill="#3e3c30" opacity="0.7"/></svg>`,
+    bigSvg:`<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"><rect x="46" y="66" width="28" height="40" fill="#181610" rx="2"/><polygon points="36,66 84,66 76,28 44,28" fill="#222018"/><ellipse cx="60" cy="28" rx="16" ry="6" fill="#2e2c20"/><ellipse cx="60" cy="26" rx="10" ry="4" fill="#3e3c30" opacity="0.7"/><rect x="48" y="80" width="24" height="3" fill="#0e0c08"/><rect x="48" y="90" width="24" height="3" fill="#0e0c08"/></svg>`
+  },
+];
+
+const VISIBLE = 4;
+const PAGES = Math.ceil(ITEMS.length / VISIBLE);
+let page = 0, sel = 0;
+let activePopup = null;
+
+const track = document.getElementById('carTrack');
+const outer = document.getElementById('carOuter');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const pageInd = document.getElementById('pageInd');
+
+function buildSlots() {
+  track.innerHTML = '';
+  ITEMS.forEach((item, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'sh-slot' + (i === sel ? ' selected' : '');
+    slot.setAttribute('role','button');
+    slot.setAttribute('aria-label', item.name);
+    slot.tabIndex = 0;
+
+    const badgeHtml = `<div class="item-badge ${item.bc}">${item.badge}</div>`;
+    const popupHtml = `
+      <div class="item-popup" id="popup-${i}">
+        <div class="popup-scan"></div>
+        <div class="popup-corner tl"></div><div class="popup-corner tr"></div>
+        <div class="popup-corner bl"></div><div class="popup-corner br"></div>
+        <div class="popup-examine">&#9632; examining</div>
+        <div class="popup-art">
+          <svg viewBox="0 0 120 120" class="popup-art-svg" xmlns="http://www.w3.org/2000/svg">${item.bigSvg.replace(/<svg[^>]*>/,'').replace('</svg>','')}</svg>
+        </div>
+        <div class="popup-name">${item.name}</div>
+<div class="popup-flavour">${item.flavour}</div>
+
+<div class="popup-tag ${item.bc}">${item.badge}</div>
+      </div>
+    `;
+
+    slot.innerHTML = `
+      <div class="sel-corner tl"></div><div class="sel-corner tr"></div>
+      <div class="sel-corner bl"></div><div class="sel-corner br"></div>
+      <div class="item-frame">
+        ${item.svg}
+        ${badgeHtml}
+        ${popupHtml}
+      </div>
+      <div class="item-name">${item.name}</div>
+      <div class="item-qty">${item.qty}</div>
+    `;
+
+    const frame = slot.querySelector('.item-frame');
+    const popup = slot.querySelector('.item-popup');
+
+    frame.addEventListener('mouseenter', () => {
+      if(activePopup && activePopup !== popup) activePopup.classList.remove('visible');
+      popup.classList.add('visible');
+      activePopup = popup;
+    });
+    frame.addEventListener('mouseleave', () => {
+      popup.classList.remove('visible');
+      if(activePopup === popup) activePopup = null;
+    });
+
+    slot.addEventListener('click', () => pick(i));
+    slot.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') pick(i); });
+    track.appendChild(slot);
+  });
+}
+
+function goPage(p) {
+  page = Math.max(0, Math.min(PAGES-1, p));
+  const w = 146+8;
+  track.style.transform = `translateX(-${page*VISIBLE*w}px)`;
+  prevBtn.disabled = page === 0;
+  nextBtn.disabled = page === PAGES-1;
+  pageInd.textContent = (page+1)+' / '+PAGES;
+}
+
+function pick(i) {
+  sel = i;
+  document.querySelectorAll('.sh-slot').forEach((s,idx) => s.classList.toggle('selected', idx===i));
+  updateDetail();
+  const p = Math.floor(i/VISIBLE);
+  if(p !== page) goPage(p);
+}
+
+function updateDetail() {
+  const item = ITEMS[sel];
+  document.getElementById('dName').textContent = item.name;
+  document.getElementById('dDesc').textContent = item.desc;
+}
+
+const outerW = VISIBLE*146 + (VISIBLE-1)*8;
+outer.style.width = outerW+'px';
+outer.style.margin = '0 auto';
+
+buildSlots();
+goPage(0);
+updateDetail();
+
+prevBtn.addEventListener('click', () => goPage(page-1));
+nextBtn.addEventListener('click', () => goPage(page+1));
+</script>
+</html>
