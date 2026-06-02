@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,700,900" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../theme/style.css"/>
+    <style>
+        div.gallery {
+            border: 1px solid #ccc;
+            border-radius: 16px;
+        }
+ 
+        div.gallery:hover {
+            border: 1px solid #777;
+        }
+ 
+        div.gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 16px 16px 0px 0px;
+        }
+ 
+        div.desc {
+            padding: 15px;
+            text-align: center;
+        }
+ 
+        .desc p {
+            color: black;
+            margin: 0px;
+        }
+ 
+        * {
+            box-sizing: border-box;
+        }
+ 
+        .responsive {
+            padding: 0 6px;
+            float: left;
+            width: 24.99999%;
+        }
+ 
+        @media only screen and (max-width: 700px) {
+            .responsive {
+                width: 49.99999%;
+                margin: 6px 0;
+            }
+        }
+ 
+        @media only screen and (max-width: 500px) {
+            .responsive {
+                width: 100%;
+            }
+        }
+ 
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .image-gallery {
+            /* The Gallery That Holds The Images */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+ 
+        .gallery-image {
+            /* A pointer cursor will display when you hover over the image */
+            cursor: pointer;
+        }
+ 
+        .modal {
+            /* The fullscreen popup that shows an expanded view of the image */
+            display: none;
+            position: fixed;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+ 
+        .modal-content {
+            /* The content inside of the .modal */
+            display: block;
+            margin: auto;
+        }
+ 
+        .close {
+            /* The close button (x) that can be clicked to close the .modal */
+            color: white;
+            font-size: 40px;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            cursor: pointer;
+        }
+ 
+        #modalImage {
+            /* The image inside the .image-container */
+            max-width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+ 
+<body class="white-bg">
+    <div class="responsive">
+        <div class="gallery" onclick="openModal('https://www.w3schools.com/css/img_5terre.jpg', 'Back Arrow')">
+            <img src="https://www.w3schools.com/css/img_5terre.jpg" alt="Cinque Terre" width="600" height="400" class="gallery-image">
+            <div class="desc">
+                <p>Add a description of the image here</p>
+            </div>
+        </div>
+    </div>
+ 
+ 
+    <div class="responsive">
+        <div class="gallery" onclick="openModal('https://www.w3schools.com/css/img_forest.jpg', 'Back Arrow')">
+            <img src="https://www.w3schools.com/css/img_forest.jpg" alt="Forest" width="600" height="400" class="gallery-image">
+            <div class="desc">
+                <p>Add a description of the image here</p>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="responsive">
+        <div class="gallery" onclick="openModal('https://www.w3schools.com/css/img_lights.jpg', 'Back Arrow')">
+            <img src="https://www.w3schools.com/css/img_lights.jpg" alt="Northern Lights" width="600" height="400" class="gallery-image">
+            <div class="desc">
+                <p>Add a description of the image here</p>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="responsive">
+        <div class="gallery" onclick="openModal('https://www.w3schools.com/css/img_mountains.jpg', 'Back Arrow')">
+            <img src="https://www.w3schools.com/css/img_mountains.jpg" alt="Mountains" width="600" height="400" class="gallery-image">
+            <div class="desc">
+                <p>Add a description of the image here</p>
+            </div>
+        </div>
+    </div>
+ 
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modalImage" class="modal-content" alt="Enlarged Image">
+    </div>
+ 
+    <script>
+        // Basic JavaScript for the openModal to work
+        function openModal(imageSrc) {
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modal').style.display = 'block';
+            document.body.classList.add('modal-open'); // Add this line
+ 
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+ 
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.classList.remove('modal-open'); // Add this line
+            document.removeEventListener('keydown', function(event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

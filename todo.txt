@@ -1,10 +1,3 @@
-1) Pop up on main page with a cross button to close 
-
-2)  Pop up triggered after dialogue ends
-
-3) Translation page: "NOT UNDERSTOOD" appears everytime you press translate so it translates, but it also 
-scrams at you. and it appears over the previous message to fill the entire page. How to signal thee end of the scene? :(
-
 
 --Optional--
 Character select which choice influences the image that appears on every webpage 
